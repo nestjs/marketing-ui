@@ -1,3 +1,9 @@
+import Devtools1 from "../../assets/screenshots/devtools_1.png";
+import Devtools2 from "../../assets/screenshots/devtools_2.png";
+import Devtools3 from "../../assets/screenshots/devtools_3.png";
+import Mau1 from "../../assets/screenshots/mau_1.png";
+import Mau2 from "../../assets/screenshots/mau_2.png";
+import Mau3 from "../../assets/screenshots/mau_3.png";
 import { BlurIn } from "../../components/animations/blur-in/blur-in";
 import { LettersReveal } from "../../components/animations/letters-reveal/letters-reveal";
 import Particles from "../../components/backgrounds/particles/particles";
@@ -45,11 +51,7 @@ export function ProductsSection() {
           <ServiceCard
             title="Deploy, mau!"
             description="Provision and manage your infrastracture on AWS without the hassle and extra DevOps work."
-            screenshots={[
-              "/screenshots/mau_1.png",
-              "/screenshots/mau_3.png",
-              "/screenshots/mau_2.png",
-            ]}
+            screenshots={[Mau1, Mau3, Mau2]}
             onClick={() => {
               window.open("https://mau.nestjs.com/", "_blank");
             }}
@@ -76,11 +78,7 @@ export function ProductsSection() {
           <ServiceCard
             title="Devtools"
             description="Enhance your development workflow with powerful tools designed to streamline your Nest application development."
-            screenshots={[
-              "/screenshots/devtools_1.png",
-              "/screenshots/devtools_2.png",
-              "/screenshots/devtools_3.png",
-            ]}
+            screenshots={[Devtools1, Devtools2, Devtools3]}
             onClick={() => {
               window.open("https://devtools.nestjs.com/", "_blank");
             }}

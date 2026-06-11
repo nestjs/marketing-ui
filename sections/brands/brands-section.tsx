@@ -1,4 +1,14 @@
 import { useState } from "react";
+import AdidasLogo from "../../assets/logos/adidas.png";
+import BmwLogo from "../../assets/logos/bmw.png";
+import CapgeminiLogo from "../../assets/logos/capgemini.png";
+import DecathlonLogo from "../../assets/logos/decathlon.png";
+import GitlabLogo from "../../assets/logos/gitlab.png";
+import IbmLogo from "../../assets/logos/ibm.png";
+import MercedesLogo from "../../assets/logos/mercedes.png";
+import RocheLogo from "../../assets/logos/roche.png";
+import SanofiLogo from "../../assets/logos/sanofi.png";
+import SocieteLogo from "../../assets/logos/societe.png";
 import { BlurIn } from "../../components/animations/blur-in/blur-in";
 import { SectionSubheading } from "../../components/domain/section-subheading/section-subheading";
 import LogoLoop from "../../components/misc/logo-loop/logo-loop";
@@ -14,7 +24,7 @@ const LOGOS = [
   {
     node: (
       <img
-        src="/logos/ibm.png"
+        src={IbmLogo}
         alt="IBM"
         style={LOGO_STYLE}
         className="lg:max-h-[80px] max-h-[60px]"
@@ -26,7 +36,7 @@ const LOGOS = [
   {
     node: (
       <img
-        src="/logos/adidas.png"
+        src={AdidasLogo}
         alt="Adidas"
         style={LOGO_STYLE}
         className="lg:max-h-[80px] max-h-[60px]"
@@ -38,7 +48,7 @@ const LOGOS = [
   {
     node: (
       <img
-        src="/logos/sanofi.png"
+        src={SanofiLogo}
         alt="Sanofi"
         style={LOGO_STYLE}
         className="lg:max-h-[80px] max-h-[60px]"
@@ -50,7 +60,7 @@ const LOGOS = [
   {
     node: (
       <img
-        src="/logos/mercedes.png"
+        src={MercedesLogo}
         alt="Mercedes"
         style={LOGO_STYLE}
         className="lg:max-h-[80px] max-h-[60px]"
@@ -62,7 +72,7 @@ const LOGOS = [
   {
     node: (
       <img
-        src="/logos/bmw.png"
+        src={BmwLogo}
         alt="BMW"
         style={LOGO_STYLE}
         className="lg:max-h-[80px] max-h-[60px]"
@@ -74,7 +84,7 @@ const LOGOS = [
   {
     node: (
       <img
-        src="/logos/capgemini.png"
+        src={CapgeminiLogo}
         alt="Capgemini"
         style={LOGO_STYLE}
         className="lg:max-h-[80px] max-h-[60px]"
@@ -86,7 +96,7 @@ const LOGOS = [
   {
     node: (
       <img
-        src="/logos/gitlab.png"
+        src={GitlabLogo}
         alt="GitLab"
         style={LOGO_STYLE}
         className="lg:max-h-[80px] max-h-[60px]"
@@ -98,7 +108,7 @@ const LOGOS = [
   {
     node: (
       <img
-        src="/logos/decathlon.png"
+        src={DecathlonLogo}
         alt="Decathlon"
         style={LOGO_STYLE}
         className="lg:max-h-[80px] max-h-[60px]"
@@ -110,7 +120,7 @@ const LOGOS = [
   {
     node: (
       <img
-        src="/logos/roche.png"
+        src={RocheLogo}
         alt="Roche"
         style={LOGO_STYLE}
         className="lg:max-h-[80px] max-h-[60px]"
@@ -122,7 +132,7 @@ const LOGOS = [
   {
     node: (
       <img
-        src="/logos/societe.png"
+        src={SocieteLogo}
         alt="Société Générale"
         style={LOGO_STYLE}
         className="lg:max-h-[80px] max-h-[60px]"

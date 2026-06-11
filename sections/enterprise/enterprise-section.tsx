@@ -1,3 +1,8 @@
+import Lts from "../../assets/enterprise-icons/lts.svg";
+import Members from "../../assets/enterprise-icons/members.svg";
+import Path from "../../assets/enterprise-icons/path.svg";
+import Reviews from "../../assets/enterprise-icons/reviews.svg";
+import Security from "../../assets/enterprise-icons/security.svg";
 import EnterpriseTestimonialAvatar from "../../assets/testimonials/otg/author.jpeg";
 import { BlurIn } from "../../components/animations/blur-in/blur-in";
 import ScrollReveal from "../../components/animations/scroll-reveal/scroll-reveal";
@@ -6,11 +11,11 @@ import { SectionSubheading } from "../../components/domain/section-subheading/se
 
 const CARDS = [
   {
-    icon: <img src="/enterprise-icons/path.svg" />,
+    icon: <img src={Path} />,
     title: "Providing technical guidance & architectural reviews",
   },
   {
-    icon: <img src="/enterprise-icons/members.svg" />,
+    icon: <img src={Members} />,
     title: "Mentoring team members",
   },
   {
@@ -31,15 +36,15 @@ const CARDS = [
     title: "Advising best practices",
   },
   {
-    icon: <img src="/enterprise-icons/security.svg" />,
+    icon: <img src={Security} />,
     title: "Addressing security & performance concerns",
   },
   {
-    icon: <img src="/enterprise-icons/reviews.svg" />,
+    icon: <img src={Reviews} />,
     title: "Performing in-depth code reviews",
   },
   {
-    icon: <img src="/enterprise-icons/lts.svg" />,
+    icon: <img src={Lts} />,
     title: "Long-term support (LTS) & upgrade assistance",
   },
 ];

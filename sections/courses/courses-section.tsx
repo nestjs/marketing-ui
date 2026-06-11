@@ -1,3 +1,4 @@
+import PlayIcon from "../../assets/icons/play.svg";
 import { BlurIn } from "../../components/animations/blur-in/blur-in";
 import ScrollReveal from "../../components/animations/scroll-reveal/scroll-reveal";
 import { PrimaryButton } from "../../components/buttons/primary-button/primary-button";
@@ -43,7 +44,7 @@ export function CoursesSection({
             {ctaText}
           </PrimaryButton>
           <TransparentButton href="https://courses.nestjs.com?preview">
-            <img src="/icons/play.svg" className="w-4 h-4 mr-2" />
+            <img src={PlayIcon} className="w-4 h-4 mr-2" />
             <span>Watch free lesson</span>
           </TransparentButton>
         </BlurIn>

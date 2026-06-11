@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import Gif1 from "../../assets/gifs/1.gif";
+import Gif2 from "../../assets/gifs/2.gif";
+import Gif3 from "../../assets/gifs/3.gif";
 import Aurora from "../../components/backgrounds/aurora-background/aurora-background";
 import LineWaves from "../../components/backgrounds/line-waves/line-waves";
 import NoiseOverlay from "../../components/backgrounds/noise-overlay/noise-overlay";
@@ -327,9 +330,9 @@ export function Footer({ className }: { className?: string }) {
         className="z-10 relative flex justify-center items-center flex w-full overflow-hidden h-0 transition-all duration-1000"
       >
         <div className="p-24 pb-14">
-          <img src={`/gifs/1.gif`} alt="Easter Egg" className="w-25 hidden" />
-          <img src={`/gifs/2.gif`} alt="Easter Egg" className="w-25 hidden" />
-          <img src={`/gifs/3.gif`} alt="Easter Egg" className="w-25 hidden" />
+          <img src={Gif1} alt="Easter Egg" className="w-25 hidden" />
+          <img src={Gif2} alt="Easter Egg" className="w-25 hidden" />
+          <img src={Gif3} alt="Easter Egg" className="w-25 hidden" />
         </div>
       </div>
     </footer>
