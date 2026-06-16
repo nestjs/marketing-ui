@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ClipboardLogo from "../../assets/testimonials/clipboard/logo.png";
 import MunichReLogo from "../../assets/testimonials/munichre/logo.png";
 import O2Logo from "../../assets/testimonials/o2/logo.svg";
@@ -37,10 +37,11 @@ const TESTIMONIALS = [
 ];
 
 export function TestimonialsSection() {
-  const randomInitialIndex = Math.floor(Math.random() * TESTIMONIALS.length);
   const [activeTestimonial, setActiveTestimonial] = useState<number | null>(
-    randomInitialIndex,
+    // () => Math.floor(Math.random() * TESTIMONIALS.length),
+    null
   );
+  useEffect(() => {setActiveTestimonial(Math.floor(Math.random() * TESTIMONIALS.length))}, []);
 
   return (
     <div className="width-full relative flex items-center justify-center text-left sm:my-80 my-40 sm:pb-0 pb-8">
