@@ -30,6 +30,22 @@ export type MenuItem = {
   }[];
 };
 
+export type HeaderProps = {
+  stats?: NestStats | null;
+  heading?: string;
+  subheading?: string;
+  breadcrumb?: string;
+  actions?: React.ReactNode;
+  bottomPanel?: React.ReactNode;
+  shrink?: boolean;
+  menuItems: Array<MenuItem>;
+  fadeInColors?: {
+    desktop: [string, string, string];
+    mobile: [string, string, string];
+    css: string;
+  };
+};
+
 const HIDE_SUBMENU_DELAY = 2000; // ms
 const INITIAL_SUBMENU_STATE = {
   state: "hidden",
@@ -45,6 +61,7 @@ export function Header({
   subheading = "Nest - the world's fastest-growing Node framework for building efficient, reliable and scalable server-side applications.",
   breadcrumb,
   bottomPanel,
+  fadeInColors,
   actions = (
     <>
       <PrimaryButton
@@ -59,16 +76,7 @@ export function Header({
       </TransparentButton>
     </>
   ),
-}: {
-  stats?: NestStats | null;
-  heading?: string;
-  subheading?: string;
-  breadcrumb?: string;
-  actions?: React.ReactNode;
-  bottomPanel?: React.ReactNode;
-  shrink?: boolean;
-  menuItems: Array<MenuItem>;
-}) {
+}: HeaderProps) {
   const headerRef = useRef<HTMLDivElement | null>(null);
   const [hoveringTarget, setHoveringTarget] = useState<MenuItem | null>(null);
   const [submenu, setSubmenu] = useState<{
@@ -148,28 +156,33 @@ export function Header({
           ${auroraReady ? "opacity-100" : "opacity-0"}
           ${shrink ? "xl:h-[91vh] min-h-[780px] xl:max-h-[920px]" : bottomPanel ? "min-h-[680px] flex-col items-center" : "xl:h-[85vh] min-h-[680px] xl:max-h-[920px]"}`}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050303] via-[#780f20] to-[#050303]"></div>
-        {/* <div
-          className="absolute inset-0 bg-gradient-to-r from-[#050303] via-[#780f20] to-[#050303]
+        {fadeInColors ? (
+          <>
+            <div
+              className="absolute inset-0 bg-gradient-to-r from-[#050303] via-[#780f20] to-[#050303]
               animate-fade-out"
-        ></div>
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-[#050303] via-[#7b0c57] to-[#050303]
-              opacity-0 animate-fade-in"
-        ></div> */}
+            ></div>
+            <div
+              className="absolute inset-0 opacity-0 animate-fade-in"
+              style={{
+                background: `linear-gradient(to right, ${fadeInColors.css}, ${fadeInColors.css} 50%, ${fadeInColors.css} 100%)`,
+              }}
+            ></div>
+          </>
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-r from-[#050303] via-[#780f20] to-[#050303]"></div>
+        )}
         <LazyRender
           className="absolute inset-0 z-0 top-[0px] bottom-[0px] left-[0px] right-[0px] pointer-events-none"
           threshold={0}
           rootMargin="800px 0px 0px 0px"
+          skip={!!fadeInColors}
         >
           <>
             <Aurora
               onReady={() => setAuroraReady(true)}
-              // transitionColorStops={{
-              //   desktop: ["#630b47", "#050303", "#2e0420"],
-              //   mobile: ["#7b0c57", "#7b0c57", "#7f0d59"],
-              // }}
-              // glowColor="#7b0c57"
+              transitionColorStops={fadeInColors ? fadeInColors : undefined}
+              glowColor={fadeInColors ? fadeInColors.desktop[1] : undefined}
             />
             <NoiseOverlay />
           </>

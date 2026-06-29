@@ -26,6 +26,7 @@ const courses = [
     duration: "2,5 hours",
     lessonCount: 21,
     color: "192,13,39",
+    url: "/extensions/architecture-and-advanced-patterns",
   },
   {
     title: "Authentication & Authorization",

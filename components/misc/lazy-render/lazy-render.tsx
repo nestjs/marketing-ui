@@ -6,12 +6,14 @@ const LazyRender = ({
   dynamic = true,
   threshold = 0.1,
   rootMargin = "0px",
+  skip,
 }: {
   children: React.ReactNode;
   className?: string;
   dynamic?: boolean;
   threshold?: number;
   rootMargin?: string;
+  skip?: boolean;
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -22,6 +24,11 @@ const LazyRender = ({
         if (dynamic) {
           // For dynamic rendering, update visibility on each intersection change
           // that said, non-visible elements will be unmounted
+          if (!entry.isIntersecting && skip) {
+            // If skip is true and the element is not intersecting
+            // we shouldnt hide it
+            return;
+          }
           setIsVisible(entry.isIntersecting);
         } else {
           if (entry.isIntersecting) {

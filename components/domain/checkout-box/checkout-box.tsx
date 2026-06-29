@@ -3,7 +3,21 @@ import KamilAvatar from "../../../assets/avatars/kamil.png";
 import MarkAvatar from "../../../assets/avatars/mark.png";
 import { PrimaryButton } from "../../buttons/primary-button/primary-button";
 
-export function CheckoutBox() {
+export type CheckoutBoxProps = {
+  courseTitle: string;
+  coursePrice: string;
+  courseDiscountedPrice: string;
+  courseVideoUrl?: string;
+  purchaseUrl: string;
+};
+
+export function CheckoutBox({
+  courseTitle,
+  coursePrice,
+  courseDiscountedPrice,
+  courseVideoUrl,
+  purchaseUrl,
+}: CheckoutBoxProps) {
   return (
     <div className="p-[1px] relative h-full rounded-[20px] overflow-hidden bg-[radial-gradient(circle_at_top_center,_#fff_0%,_#222_20%,_#222_100%)]">
       <div
@@ -22,23 +36,34 @@ export function CheckoutBox() {
           [mask-image:radial-gradient(circle_at_top_right,black_0%,transparent_50%)]
           [-webkit-mask-image:radial-gradient(circle_at_top_right,black_0%,transparent_50%)]"
         />
-        <iframe
-          src="https://player.vimeo.com/video/433943559?autoplay=1&muted=1&title=0&byline=0&portrait=0&sidedock=0"
-          width="100%"
-          height="100%"
-          allow="autoplay; fullscreen"
-          className="aspect-video w-full overflow-hidden rounded-[16px] border border-white/10 bg-black"
-        ></iframe>
+        {courseVideoUrl ? (
+          <iframe
+            src={courseVideoUrl}
+            width="100%"
+            height="100%"
+            allow="autoplay; fullscreen"
+            className="aspect-video w-full overflow-hidden rounded-[16px] border border-white/10 bg-black"
+          ></iframe>
+        ) : (
+          <img src="/no-preview-video.jpeg" />
+        )}
         <h4 className="md:text-[1.7rem] text-2xl font-normal mt-10">
-          NestJS Fundamentals Course
+          {courseTitle}
         </h4>
         <div className="flex items-start gap-3 mt-2">
-          <span className="text-[1.3rem]">$129</span>
+          <span className="text-[1.3rem]">{coursePrice}</span>
           <span className="line-through opacity-70 text-md font-light">
-            $175
+            {courseDiscountedPrice}
           </span>
           <span className="font-mono text-white uppercase bg-[var(--primary-color)] font-thin text-xs p-[6px] rounded-[8px]">
-            Save 25%
+            Save{" "}
+            {Math.round(
+              ((parseFloat(courseDiscountedPrice.replace("$", "")) -
+                parseFloat(coursePrice.replace("$", ""))) /
+                parseFloat(courseDiscountedPrice.replace("$", ""))) *
+                100,
+            )}
+            %
           </span>
         </div>
         <div className="font-mono text-sm opacity-70 leading-6 font-light mt-2">
@@ -46,7 +71,7 @@ export function CheckoutBox() {
         </div>
         <div className="mt-8 mb-6">
           <PrimaryButton
-            href="https://learn.nestjs.com/purchase?product_id=5676925"
+            href={purchaseUrl}
             className="w-full text-center"
             inline={false}
           >
