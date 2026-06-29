@@ -19,6 +19,7 @@ type CourseCardProps = {
   shadowOnHover?: boolean;
   variant?: "full" | "compact";
   align?: "left" | "center";
+  url?: string;
 };
 
 export function CourseCard({
@@ -34,6 +35,7 @@ export function CourseCard({
   borderOpaque = false,
   shadowOnHover = true,
   align = "center",
+  url,
 }: CourseCardProps) {
   const meshRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -60,6 +62,11 @@ export function CourseCard({
     if (cardRef.current && shadowOnHover) {
       cardRef.current.style.boxShadow = `none`;
     }
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!url) return;
+    window.open(url, "_self");
   };
 
   return (
@@ -97,6 +104,7 @@ export function CourseCard({
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
         style={{
           background: `radial-gradient(ellipse at top,
             color-mix(in srgb, rgba(${color}, 1.0) 25%, #050303) 60%,

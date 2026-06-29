@@ -26,7 +26,7 @@ export function CertificatesSection() {
   return (
     <div
       className="container relative flex mx-auto md:flex-row flex-col items-center md:mt-60 mt-24 px-4 md:px-0"
-      id="certificated"
+      id="certified"
     >
       <div className="grid md:grid-cols-[55%_10%_35%] grid-rows-[auto] gap-0 place-items-top">
         <div className="mt-12">

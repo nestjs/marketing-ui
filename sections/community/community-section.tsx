@@ -174,7 +174,7 @@ export default function CommunitySection() {
             transformed their careers with our comprehensive courses.
           </ScrollReveal>
           <div className="mt-16">
-            <PrimaryButton href="#certificated">
+            <PrimaryButton href="#certified">
               See certified developers
             </PrimaryButton>
           </div>

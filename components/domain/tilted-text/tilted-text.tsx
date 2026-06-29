@@ -13,11 +13,19 @@ export function TiltedText({
   content,
   buttonText,
   buttonLink,
+  gradientColors = {
+    from: "#1b1b1b",
+    to: "#0e0e0e",
+  },
 }: {
   heading: string;
   content: string;
   buttonText: string;
   buttonLink: string;
+  gradientColors?: {
+    from: string;
+    to: string;
+  };
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -48,7 +56,6 @@ export function TiltedText({
   return (
     <AnimatedContent distance={250} delay={0.1} initialOpacity={0}>
       <section
-        id="testimonial"
         className="flex justify-center md:my-24 my-12 px-4"
         style={{ perspective: 1000 }}
       >
@@ -59,7 +66,12 @@ export function TiltedText({
           style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
           className="rounded-[20px] border border-white/15 p-2 relative container will-change-transform"
         >
-          <div className="bg-gradient-to-b from-[#1b1b1b] to-[#0e0e0e] rounded-[16px] md:py-42 py-16 md:px-12 relative z-10 overflow-hidden">
+          <div
+            className={`rounded-[16px] md:py-42 py-16 md:px-12 relative z-10 overflow-hidden`}
+            style={{
+              background: `linear-gradient(to bottom, ${gradientColors.from}, ${gradientColors.to})`,
+            }}
+          >
             <NoiseOverlay opacity={0.1} />
             <div className="absolute scale-150 inset-0 pointer-events-none rounded-[16px]">
               <LightRays
