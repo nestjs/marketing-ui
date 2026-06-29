@@ -18,12 +18,12 @@ export const MENU_ITEMS: Array<MenuItem> = [
   {
     id: "enterprise",
     label: "Enterprise",
-    href: "/enterprise",
+    href: "https://enterprise.nestjs.com",
   },
   {
     id: "courses",
     label: "Courses",
-    href: "/courses",
+    href: "https://courses.nestjs.com",
   },
   { id: "docs", label: "Docs", href: "https://docs.nestjs.com" },
   {
@@ -41,11 +41,11 @@ export const MENU_ITEMS: Array<MenuItem> = [
       {
         id: "mau",
         label: "Deploy, Mau!",
-        href: "/tools/mau",
+        href: "https://mau.nestjs.com",
         description: "Provision and manage your infrastructure on AWS.",
         thumbnail: MauThumbnail,
       },
     ],
   },
-  { id: "jobs", label: "Jobs", href: "/jobs" },
+  { id: "jobs", label: "Jobs", href: "https://jobs.nestjs.com" },
 ];
