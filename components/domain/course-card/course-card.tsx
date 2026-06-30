@@ -66,7 +66,6 @@ export function CourseCard({
   };
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    console.log(url);
     if (!url) return;
     window.open(url, "_self");
   };
