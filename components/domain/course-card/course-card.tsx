@@ -4,6 +4,7 @@ import { useRef } from "react";
 import TimeIcon from "./time.svg?react";
 /* @ts-ignore */
 import { StackIcon } from "@phosphor-icons/react";
+/* @ts-ignore */
 import PlayIcon from "./play.svg?react";
 
 type CourseCardProps = {
@@ -168,7 +169,7 @@ export function CourseCard({
               {discount ? (
                 <>
                   <span className="line-through opacity-70 text-md font-light leading-7">
-                    ${Math.round(price + price * (discount / 100))}
+                    ${Math.round(price / (1 - discount / 100))}
                   </span>
                   <span className="mt-1 font-mono text-white uppercase bg-[var(--primary-color)] font-thin text-xs py-[5px] px-[6px] rounded-[8px]">
                     Save {discount}%

@@ -44,6 +44,7 @@ export type HeaderProps = {
     mobile: [string, string, string];
     css: string;
   };
+  menuAction?: React.ReactNode;
 };
 
 const HIDE_SUBMENU_DELAY = 2000; // ms
@@ -62,6 +63,7 @@ export function Header({
   breadcrumb,
   bottomPanel,
   fadeInColors,
+  menuAction,
   actions = (
     <>
       <PrimaryButton
@@ -294,7 +296,7 @@ export function Header({
                     </a>
                   </div>
 
-                  <div className="lg:hidden flex justify-end">
+                  <div className="lg:hidden flex justify-end items-center">
                     <div
                       className={`${classes.mobileMenu} relative w-6 h-5 cursor-pointer`}
                       onClick={() => {
@@ -312,7 +314,18 @@ export function Header({
                         ></div>
                       </div>
                     </div>
+                    {menuAction && (
+                      <div className="mr-[-12px] mt-[-12px] mb-[-12px] ml-[24px]">
+                        {menuAction}
+                      </div>
+                    )}
                   </div>
+
+                  {menuAction && (
+                    <div className="mr-[-12px] mt-[-12px] mb-[-12px] ml-[40px] lg:flex hidden">
+                      {menuAction}
+                    </div>
+                  )}
                 </div>
               </SpotlightCard>
             </div>
