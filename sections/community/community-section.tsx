@@ -1,6 +1,6 @@
 // @ts-ignore
 import { gsap } from "gsap/dist/gsap.js";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BlurIn } from "../../components/animations/blur-in/blur-in";
 import ScrollReveal from "../../components/animations/scroll-reveal/scroll-reveal";
 import { PrimaryButton } from "../../components/buttons/primary-button/primary-button";
@@ -33,7 +33,9 @@ export default function CommunitySection() {
     return () => window.removeEventListener("resize", updateViewportWidth);
   }, []);
 
-  const avatars: Avatar[] = useMemo(() => {
+  const [avatars, setAvatars] = useState<Avatar[]>([]);
+
+  useEffect(() => {
     let count = 20,
       cols = 4,
       rows = 5,
@@ -91,7 +93,7 @@ export default function CommunitySection() {
       }
     }
 
-    return points;
+    setAvatars(points);
   }, [viewportWidth]);
 
   useEffect(() => {

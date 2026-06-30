@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AnimatedArrow from "../../components/animations/animated-arrow/animated-arrow";
 import ScrollReveal from "../../components/animations/scroll-reveal/scroll-reveal";
 import { PrimaryButton } from "../../components/buttons/primary-button/primary-button";
@@ -19,10 +19,13 @@ const CERTIFICATES = [
 ];
 
 export function CertificatesSection() {
-  const randomInitialIndex = Math.floor(Math.random() * CERTIFICATES.length);
   const [activeCertificate, setActiveCertificate] = useState<number | null>(
-    randomInitialIndex,
+    null,
   );
+
+  useEffect(() => {
+    setActiveCertificate(Math.floor(Math.random() * CERTIFICATES.length));
+  }, []);
   return (
     <div
       className="container relative flex mx-auto md:flex-row flex-col items-center md:mt-60 mt-24 px-4 md:px-0"
