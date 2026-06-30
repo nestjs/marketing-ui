@@ -33,18 +33,21 @@ const courses = [
     duration: "2 hours",
     lessonCount: 19,
     color: "166,13,116",
+    url: "/extensions/authentication-and-authorization",
   },
   {
     title: "Microservices",
     duration: "2 hours",
     lessonCount: 20,
     color: "0,108,128",
+    url: "/extensions/microservices",
   },
   {
     title: "Fundamentals",
     duration: "5 hours",
     lessonCount: 80,
     color: "121,32,205",
+    url: "/",
   },
 ];
 
