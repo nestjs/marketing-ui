@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { siDiscord, siGithub, siX } from "simple-icons";
 import LinkedinIcon from "../../assets/icons/linkedin.svg";
 import { BlurIn } from "../../components/animations/blur-in/blur-in";
@@ -149,6 +149,48 @@ export function Header({
     },
     [],
   );
+
+  const submenuBackgroundColor = useMemo(() => {
+    if (!fadeInColors) {
+      return;
+    }
+    function darkenColor(hex: string, factor: number) {
+      const num = parseInt(hex.replace("#", ""), 16);
+
+      let r = (num >> 16) & 255;
+      let g = (num >> 8) & 255;
+      let b = num & 255;
+
+      r = Math.floor(r * (1 - factor));
+      g = Math.floor(g * (1 - factor));
+      b = Math.floor(b * (1 - factor));
+
+      return `#${[r, g, b]
+        .map((x) => x.toString(16).padStart(2, "0"))
+        .join("")}`;
+    }
+
+    function lightenColor(hex: string, factor: number) {
+      const num = parseInt(hex.replace("#", ""), 16);
+
+      let r = (num >> 16) & 255;
+      let g = (num >> 8) & 255;
+      let b = num & 255;
+
+      r = Math.round(r + (255 - r) * factor);
+      g = Math.round(g + (255 - g) * factor);
+      b = Math.round(b + (255 - b) * factor);
+
+      return `#${[r, g, b]
+        .map((x) => x.toString(16).padStart(2, "0"))
+        .join("")}`;
+    }
+
+    return {
+      from: lightenColor(fadeInColors.css, 0.2),
+      to: darkenColor(fadeInColors.css, 0.4),
+    };
+  }, [fadeInColors]);
 
   return (
     <header className="sm:p-10 p-4">
@@ -435,8 +477,12 @@ export function Header({
         }}
       >
         <div
-          className="w-max backdrop-blur-lg rounded-[24px] p-2 shadow-xl shadow-xl/20
-              bg-gradient-to-tr from-[#4e242a] to-[#44161e] border border-white/15 flex max-w-[768px]"
+          className="w-max backdrop-blur-lg rounded-[24px] p-2 shadow-xl shadow-xl/20 border border-white/15 flex max-w-[768px]"
+          style={{
+            background: fadeInColors
+              ? `linear-gradient(135deg, ${submenuBackgroundColor?.from} 0%, ${submenuBackgroundColor?.to} 100%)`
+              : `linear-gradient(135deg, #4e242a 0%, #44161e 100%)`,
+          }}
         >
           {submenu.items?.map((child) => (
             <a
