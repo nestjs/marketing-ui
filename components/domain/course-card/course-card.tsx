@@ -67,7 +67,12 @@ export function CourseCard({
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (!url) return;
-    url = url.startsWith("https") ? url : `https://courses.nestjs.com${url}`;
+    url =
+      variant === "compact"
+        ? url.startsWith("https")
+          ? url
+          : `https://courses.nestjs.com${url}`
+        : url;
     window.open(url, "_self");
   };
 
