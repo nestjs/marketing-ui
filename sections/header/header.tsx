@@ -109,7 +109,7 @@ export function Header({
         });
       }
     },
-    [],
+    []
   );
 
   const scheduleHideSubmenu = useCallback((item: MenuItem) => {
@@ -147,7 +147,7 @@ export function Header({
         scheduleHideSubmenu(item);
       }
     },
-    [],
+    []
   );
 
   const submenuBackgroundColor = useMemo(() => {
@@ -198,7 +198,13 @@ export function Header({
         ref={headerRef}
         className={`flex justify-center overflow-hidden relative pb-16 sm:rounded-[32px] rounded-[16px] 
           ${auroraReady ? "opacity-100" : "opacity-0"}
-          ${shrink ? "xl:h-[91vh] min-h-[780px] xl:max-h-[920px]" : bottomPanel ? "min-h-[680px] flex-col items-center" : "xl:h-[85vh] min-h-[680px] xl:max-h-[920px]"}`}
+          ${
+            shrink
+              ? "xl:h-[91vh] min-h-[780px] xl:max-h-[920px]"
+              : bottomPanel
+                ? "min-h-[680px] flex-col items-center"
+                : "xl:h-[85vh] min-h-[680px] xl:max-h-[920px]"
+          }`}
       >
         {fadeInColors ? (
           <>
@@ -254,7 +260,9 @@ export function Header({
                         key={item.id}
                         onMouseEnter={(e) => onMenuItemMouseEnter(item, e)}
                         onMouseLeave={(e) => onMenuItemMouseLeave(item, e)}
-                        className={`px-5 menu-item ${item.children ? "menu-item--children" : ""}`}
+                        className={`px-5 menu-item ${
+                          item.children ? "menu-item--children" : ""
+                        }`}
                       >
                         <a
                           href={item.href}
@@ -274,7 +282,13 @@ export function Header({
                         </a>
                         {item.children && (
                           <span
-                            className={`pl-2 ${item === hoveringTarget ? "opacity-60 cursor-pointer" : hoveringTarget === null ? "opacity-100" : "opacity-30 blur-[1px]"} transition-opacity duration-300`}
+                            className={`pl-2 ${
+                              item === hoveringTarget
+                                ? "opacity-60 cursor-pointer"
+                                : hoveringTarget === null
+                                  ? "opacity-100"
+                                  : "opacity-30 blur-[1px]"
+                            } transition-opacity duration-300`}
                           >
                             <ChevronDown
                               className={`inline-block w-4 h-4 transition-opacity duration-300`}
@@ -290,6 +304,7 @@ export function Header({
                       href="https://github.com/nestjs"
                       target="_blank"
                       className="icon m-l-30 hover:opacity-60 transition-opacity"
+                      rel="noreferrer"
                     >
                       <svg
                         role="img"
@@ -303,6 +318,7 @@ export function Header({
                       href="https://twitter.com/nestframework"
                       target="_blank"
                       className="icon hover:opacity-60 transition-opacity"
+                      rel="noreferrer"
                     >
                       <svg
                         role="img"
@@ -316,6 +332,7 @@ export function Header({
                       href="https://discord.com/invite/G7Qnnhy"
                       target="_blank"
                       className="icon hover:opacity-60 transition-opacity"
+                      rel="noreferrer"
                     >
                       <svg
                         role="img"
@@ -329,6 +346,7 @@ export function Header({
                       href="https://linkedin.com/company/19078346"
                       target="_blank"
                       className="icon hover:opacity-60 transition-opacity"
+                      rel="noreferrer"
                     >
                       <img
                         src={LinkedinIcon}
@@ -373,7 +391,9 @@ export function Header({
             </div>
           </BlurIn>
           <div
-            className={`centered text-center pt-26 2xl:pt-28 flex flex-col items-center ${bottomPanel ? "pb-0" : "pb-40"}`}
+            className={`centered text-center pt-[6.5rem] 2xl:pt-[7rem] flex flex-col items-center ${
+              bottomPanel ? "pb-0" : "pb-40"
+            }`}
           >
             {breadcrumb && (
               <BlurIn>
@@ -405,7 +425,7 @@ export function Header({
             )}
           </div>
         </div>
-        <div className="absolute right-20 bottom-15 sm:leading-10 leading-8 font-mono sm:text-sm text-xs sm:text-right text-center">
+        <div className="absolute right-20 bottom-[3.75rem] sm:leading-10 leading-8 font-mono sm:text-sm text-xs sm:text-right text-center">
           {stats && (
             <BlurIn distance={5} delay={0.25} threshold={0.05}>
               <>
@@ -440,7 +460,7 @@ export function Header({
       </div>
 
       <div
-        className="submenu absolute top-full z-100 pt-12 duration-600 transition"
+        className="submenu absolute top-full z-[100] pt-12 duration-[600ms] transition"
         style={{
           left: submenu.coords.x,
           top: submenu.coords.y,

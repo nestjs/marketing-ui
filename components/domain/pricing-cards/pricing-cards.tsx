@@ -77,7 +77,7 @@ export function PricingCards({ className, plans }: PricingCardsProps) {
           downgrade later, and you can also cancel at any time.
         </ScrollReveal>
         <BlurIn className="mt-20 flex justify-center" duration={0.5}>
-          <div className="border border-white/10 rounded-[24px] p-2 bg-gradient-to-r from-[#1A1A1A] via-[#2c2c2c] via-40% to-[#1A1A1A] flex text-md">
+          <div className="border border-white/10 rounded-[24px] p-2 bg-gradient-to-r from-[#1A1A1A] via-[#2c2c2c] via-[40%] to-[#1A1A1A] flex text-base">
             <IntervalButton
               active={billingInterval === "monthly"}
               onClick={() => setBillingInterval("monthly")}
