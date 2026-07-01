@@ -56,7 +56,7 @@ export default function StackedCards({ cards }: StackedCardsProps) {
               const adjustedOpacity = gsap.utils.clamp(
                 0,
                 1,
-                (0.85 - self.progress) / (0.85 - 0.75),
+                (0.85 - self.progress) / (0.85 - 0.75)
               );
 
               gsap.set(card, {
@@ -71,11 +71,11 @@ export default function StackedCards({ cards }: StackedCardsProps) {
                 const normalizedProgress = gsap.utils.clamp(
                   0,
                   1,
-                  self.progress * cards.length,
+                  self.progress * cards.length
                 );
                 const nextTranslateY = Math.max(
                   0,
-                  window.innerHeight * (1 - normalizedProgress),
+                  window.innerHeight * (1 - normalizedProgress)
                 );
                 gsap.set(nextCard, { translateY: nextTranslateY });
               }
@@ -98,7 +98,10 @@ export default function StackedCards({ cards }: StackedCardsProps) {
   };
 
   return (
-    <div ref={wrapperRef} className="wrapper py-24 w-full min-h-screen">
+    <div
+      ref={wrapperRef}
+      className="wrapper py-24 w-full min-h-screen max-w-[1920px] mx-auto"
+    >
       <div className="cards mx-auto w-full px-4 sm:px-5 md:px-8 lg:px-10 flex flex-col gap-12">
         {cards!.map((node, i) => (
           <div

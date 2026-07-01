@@ -41,10 +41,12 @@ export function TestimonialsSection() {
     // () => Math.floor(Math.random() * TESTIMONIALS.length),
     null
   );
-  useEffect(() => {setActiveTestimonial(Math.floor(Math.random() * TESTIMONIALS.length))}, []);
+  useEffect(() => {
+    setActiveTestimonial(Math.floor(Math.random() * TESTIMONIALS.length));
+  }, []);
 
   return (
-    <div className="width-full relative flex items-center justify-center text-left sm:my-80 my-40 sm:pb-0 pb-8">
+    <div className="w-full relative flex items-center justify-center text-left sm:my-80 my-40 sm:pb-0 pb-8">
       <AnimatedContent
         className="absolute top-0 left-0 right-0 bottom-0 z-0"
         ease="elastic.out"
@@ -68,7 +70,7 @@ export function TestimonialsSection() {
             Built for teams that can't afford mistakes
           </h3>
         </BlurIn>
-        <div className="flex flex-col mb-10 md:mt-40 mt-30 relative w-full">
+        <div className="flex flex-col mb-10 md:mt-40 mt-[7.5rem] relative w-full">
           <BlurIn duration={0.8} delay={0.3} distance={20} ease="power2.out">
             <span className="text-[130px] leading-[20px] block ml-[-5px]">
               “
@@ -126,14 +128,14 @@ export function TestimonialsSection() {
                       </div>
                     </div>
                   </BlurIn>
-                  <div className="text-sm text-[rgba(255,255,255,0.75)] font-mono font-light tracking-[0.5em] flex items-center gap-2 flex-row relative z-15 md:mt-0 mt-4">
+                  <div className="text-sm text-[rgba(255,255,255,0.75)] font-mono font-light tracking-[0.5em] flex items-center gap-2 flex-row relative z-[15] md:mt-0 mt-4">
                     <span
                       onClick={() => {
                         setActiveTestimonial((prev) =>
                           prev === null
                             ? 0
                             : (prev - 1 + TESTIMONIALS.length) %
-                              TESTIMONIALS.length,
+                              TESTIMONIALS.length
                         );
                       }}
                       className="p-4 opacity-50 hover:opacity-100 transition-opacity cursor-pointer mr-2"
@@ -146,7 +148,7 @@ export function TestimonialsSection() {
                             prev === null
                               ? 0
                               : (prev - 1 + TESTIMONIALS.length) %
-                                TESTIMONIALS.length,
+                                TESTIMONIALS.length
                           );
                         }}
                       />
@@ -164,7 +166,7 @@ export function TestimonialsSection() {
                     <span
                       onClick={() => {
                         setActiveTestimonial((prev) =>
-                          prev === null ? 0 : (prev + 1) % TESTIMONIALS.length,
+                          prev === null ? 0 : (prev + 1) % TESTIMONIALS.length
                         );
                       }}
                       className="p-4 opacity-50 hover:opacity-100 transition-opacity cursor-pointer"

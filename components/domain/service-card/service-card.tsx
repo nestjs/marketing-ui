@@ -35,7 +35,7 @@ export function ServiceCard({
       setActiveCardItem((prev) => (prev + 1) % cardItems.length),
     onSwipeRight: () =>
       setActiveCardItem(
-        (prev) => (prev - 1 + cardItems.length) % cardItems.length,
+        (prev) => (prev - 1 + cardItems.length) % cardItems.length
       ),
   });
   const [showTooltip, setShowTooltip] = useState(false);
@@ -50,13 +50,13 @@ export function ServiceCard({
   };
 
   const handleMouseEnter = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     setShowTooltip(true);
   };
 
   const handleMouseLeave = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     setShowTooltip(false);
   };
@@ -71,7 +71,7 @@ export function ServiceCard({
         setActiveCardItem((prev) => (prev + 1) % cardItems.length);
       }, CARD_CHANGE_INTERVAL);
     },
-    [cardItems.length],
+    [cardItems.length]
   );
 
   useEffect(() => {
@@ -162,7 +162,9 @@ export function ServiceCard({
             ref={tooltipRef}
             className={`absolute rounded-full bg-white text-black w-[192px] h-[192px] 
           z-100 flex items-center justify-center transform -translate-x-1/2
-          ${showTooltip ? "scale-100" : "scale-0"} transition-transform duration-200 pointer-events-none`}
+          ${
+            showTooltip ? "scale-100" : "scale-0"
+          } transition-transform duration-200 pointer-events-none`}
             style={{ left: "-9999px", top: "-9999px" }}
           >
             <span
@@ -201,11 +203,19 @@ export function ServiceCard({
             <div
               {...swipe}
               key={idx}
-              className={`cursor-pointer service-card-item ${isMobile ? (activeCardItem === idx ? "absolute opacity-100 bottom-0 top-0" : "absolute opacity-0") : "relative"}`}
+              className={`cursor-pointer service-card-item ${
+                isMobile
+                  ? activeCardItem === idx
+                    ? "absolute opacity-100 bottom-0 top-0"
+                    : "absolute opacity-0"
+                  : "relative"
+              }`}
               onClick={() => handleItemClick(idx)}
             >
               <h4
-                className={`sm:text-xl flex justify-between items-center text-lg font-medium mb-4 ${activeCardItem === idx ? "!opacity-100" : ""} transition-opacity duration-150`}
+                className={`sm:text-xl flex justify-between items-center text-lg font-medium mb-4 ${
+                  activeCardItem === idx ? "!opacity-100" : ""
+                } transition-opacity duration-150`}
               >
                 <span>{item.title}</span>
                 <span className="ml-2 sm:hidden font-mono font-light text-sm opacity-50">
@@ -213,7 +223,9 @@ export function ServiceCard({
                 </span>
               </h4>
               <p
-                className={`sm:text-sm text-xs leading-6 font-light font-mono ${activeCardItem === idx ? "!opacity-100" : ""} transition-opacity duration-150`}
+                className={`sm:text-sm text-xs leading-6 font-light font-mono ${
+                  activeCardItem === idx ? "!opacity-100" : ""
+                } transition-opacity duration-150`}
               >
                 {item.description}
               </p>

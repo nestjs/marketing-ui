@@ -220,6 +220,7 @@ export function Footer({ className }: { className?: string }) {
                       href="https://github.com/nestjs"
                       className="font-semibold hover:underline hover:underline-offset-4 hover:opacity-80"
                       target="_blank"
+                      rel="noreferrer"
                     >
                       Github
                     </a>
@@ -229,6 +230,7 @@ export function Footer({ className }: { className?: string }) {
                       href="https://linkedin.com/company/19078346"
                       className="font-semibold hover:underline hover:underline-offset-4 hover:opacity-80"
                       target="_blank"
+                      rel="noreferrer"
                     >
                       Linkedin
                     </a>
@@ -238,6 +240,7 @@ export function Footer({ className }: { className?: string }) {
                       href="https://twitter.com/nestframework"
                       className="font-semibold hover:underline hover:underline-offset-4 hover:opacity-80"
                       target="_blank"
+                      rel="noreferrer"
                     >
                       X (Twitter)
                     </a>
@@ -247,6 +250,7 @@ export function Footer({ className }: { className?: string }) {
                       href="https://discord.com/invite/G7Qnnhy"
                       className="font-semibold hover:underline hover:underline-offset-4 hover:opacity-80"
                       target="_blank"
+                      rel="noreferrer"
                     >
                       Discord
                     </a>
@@ -296,6 +300,7 @@ export function Footer({ className }: { className?: string }) {
                   href="https://github.com/kamilmysliwiec"
                   target="_blank"
                   className="underline text-white hover:opacity-80"
+                  rel="noreferrer"
                 >
                   Kamil Mysliwiec
                 </a>
@@ -306,6 +311,7 @@ export function Footer({ className }: { className?: string }) {
                   href="https://dribbble.com/JakubStaron"
                   target="_blank"
                   className="underline text-white hover:opacity-80"
+                  rel="noreferrer"
                 >
                   Jakub Staron
                 </a>{" "}
@@ -317,6 +323,7 @@ export function Footer({ className }: { className?: string }) {
                   href="https://netlify.com"
                   target="_blank"
                   className="underline text-white hover:opacity-80"
+                  rel="noreferrer"
                 >
                   Netlify
                 </a>
