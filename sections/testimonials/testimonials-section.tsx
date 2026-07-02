@@ -48,9 +48,13 @@ export function TestimonialsSection() {
   }, []);
 
   // Calculate height based on the active testimonial's text length
-  const calculateHeight = (testimonial: (typeof TESTIMONIALS)[number]) => {
+  const calculateHeight = (
+    testimonial: (typeof TESTIMONIALS)[number],
+    windowWidth: number,
+  ) => {
     const baseHeight = 250;
-    const textLengthFactor = 0.4;
+    // The smaller screen width is, the more we want to increase the height based on text length
+    const textLengthFactor = windowWidth < 500 ? 0.6 : 0.4;
     return baseHeight + testimonial.text.length * textLengthFactor;
   };
 
@@ -58,7 +62,9 @@ export function TestimonialsSection() {
     const recalculateHeight = () => {
       if (typeof window !== "undefined" && window.innerWidth < 640) {
         if (activeTestimonial !== null) {
-          setHeight(calculateHeight(TESTIMONIALS[activeTestimonial]));
+          setHeight(
+            calculateHeight(TESTIMONIALS[activeTestimonial], window.innerWidth),
+          );
         } else {
           setHeight(350); // Default height when no testimonial is active
         }
@@ -148,7 +154,7 @@ export function TestimonialsSection() {
                   >
                     <div className="relative rounded-[60px] bg-gradient-to-br from-[#959595] to-[#1d1b1b]">
                       <div className="absolute top-[1px] left-[1px] right-[1px] bottom-[1px] bg-[var(--color-bg)] rounded-[60px]" />
-                      <div className="relative z-10 py-5 pr-16 pl-28">
+                      <div className="relative z-10 py-5 pr-16 xs:pl-28 pl-32">
                         <div className="absolute p-6 sm:w-[88px] top-0 bottom-0 left-0 aspect-square rounded-full border border-solid border-[rgba(255,255,255,0.2)]">
                           <img
                             src={TESTIMONIALS[idx].logo}
