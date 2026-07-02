@@ -39,14 +39,44 @@ const TESTIMONIALS = [
 export function TestimonialsSection() {
   const [activeTestimonial, setActiveTestimonial] = useState<number | null>(
     // () => Math.floor(Math.random() * TESTIMONIALS.length),
-    null
+    null,
   );
+  const [height, setHeight] = useState<number | null>(null);
+
   useEffect(() => {
     setActiveTestimonial(Math.floor(Math.random() * TESTIMONIALS.length));
   }, []);
 
+  // Calculate height based on the active testimonial's text length
+  const calculateHeight = (testimonial: (typeof TESTIMONIALS)[number]) => {
+    const baseHeight = 250;
+    const textLengthFactor = 0.4;
+    return baseHeight + testimonial.text.length * textLengthFactor;
+  };
+
+  useEffect(() => {
+    const recalculateHeight = () => {
+      if (typeof window !== "undefined" && window.innerWidth < 640) {
+        if (activeTestimonial !== null) {
+          setHeight(calculateHeight(TESTIMONIALS[activeTestimonial]));
+        } else {
+          setHeight(350); // Default height when no testimonial is active
+        }
+      } else {
+        setHeight(null); // Reset height for larger screens
+      }
+    };
+
+    recalculateHeight(); // Initial calculation
+
+    window.addEventListener("resize", recalculateHeight);
+    return () => {
+      window.removeEventListener("resize", recalculateHeight);
+    };
+  }, [activeTestimonial]);
+
   return (
-    <div className="w-full relative flex items-center justify-center text-left sm:my-80 my-40 sm:pb-0 pb-8">
+    <div className="w-full relative flex items-center justify-center text-left sm:my-80 my-40 sm:pb-0 pb-6 mx-0">
       <AnimatedContent
         className="absolute top-0 left-0 right-0 bottom-0 z-0"
         ease="elastic.out"
@@ -76,7 +106,10 @@ export function TestimonialsSection() {
               “
             </span>
           </BlurIn>
-          <div className="relative md:h-[250px] sm:h-[300px] h-[350px]">
+          <div
+            className={`relative md:h-[250px] sm:h-[300px] h-[350px]`}
+            style={{ height: height ?? "" }}
+          >
             {TESTIMONIALS.map((_, idx) => (
               <div
                 className="absolute top-0 left-0 right-0 transition duration-1000"
@@ -97,7 +130,12 @@ export function TestimonialsSection() {
                   distance={20}
                   ease="power2.out"
                 >
-                  <p className="md:text-xl text-[1.1rem] leading-8 text-left max-w-5xl md:min-h-[205px] min-h-[280px]">
+                  <p
+                    className="md:text-xl text-[1.1rem] leading-8 text-left max-w-5xl lg:min-h-[205px] md:min-h-[255px] min-h-[280px]"
+                    style={{
+                      height: height ? height - 100 : "",
+                    }}
+                  >
                     {TESTIMONIALS[idx].text}
                   </p>
                 </BlurIn>
@@ -111,13 +149,13 @@ export function TestimonialsSection() {
                     <div className="relative rounded-[60px] bg-gradient-to-br from-[#959595] to-[#1d1b1b]">
                       <div className="absolute top-[1px] left-[1px] right-[1px] bottom-[1px] bg-[var(--color-bg)] rounded-[60px]" />
                       <div className="relative z-10 py-5 pr-16 pl-28">
-                        <div className="absolute p-6 w-[88px] top-0 bottom-0 left-0 aspect-square rounded-full border border-solid border-[rgba(255,255,255,0.2)]">
+                        <div className="absolute p-6 sm:w-[88px] top-0 bottom-0 left-0 aspect-square rounded-full border border-solid border-[rgba(255,255,255,0.2)]">
                           <img
                             src={TESTIMONIALS[idx].logo}
-                            className="w-full h-full object-contain"
+                            className="w-full h-full object-contain max-w-[50px] mx-auto"
                           />
                         </div>
-                        <div className="flex flex-col text-left">
+                        <div className="flex flex-col text-left sm:pl-0 pl-6">
                           <span className="text-lg leading-[1.6]">
                             {TESTIMONIALS[idx].author}
                           </span>
@@ -135,7 +173,7 @@ export function TestimonialsSection() {
                           prev === null
                             ? 0
                             : (prev - 1 + TESTIMONIALS.length) %
-                              TESTIMONIALS.length
+                              TESTIMONIALS.length,
                         );
                       }}
                       className="p-4 opacity-50 hover:opacity-100 transition-opacity cursor-pointer mr-2"
@@ -148,7 +186,7 @@ export function TestimonialsSection() {
                             prev === null
                               ? 0
                               : (prev - 1 + TESTIMONIALS.length) %
-                                TESTIMONIALS.length
+                                TESTIMONIALS.length,
                           );
                         }}
                       />
@@ -166,7 +204,7 @@ export function TestimonialsSection() {
                     <span
                       onClick={() => {
                         setActiveTestimonial((prev) =>
-                          prev === null ? 0 : (prev + 1) % TESTIMONIALS.length
+                          prev === null ? 0 : (prev + 1) % TESTIMONIALS.length,
                         );
                       }}
                       className="p-4 opacity-50 hover:opacity-100 transition-opacity cursor-pointer"
