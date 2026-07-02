@@ -26,6 +26,7 @@ export type Plan = {
 interface PricingCardsProps {
   className?: string;
   plans?: Plan[];
+  onBillingIntervalChange?: (interval: "monthly" | "annually") => void;
 }
 
 function IntervalButton({
@@ -53,10 +54,22 @@ function IntervalButton({
   );
 }
 
-export function PricingCards({ className, plans }: PricingCardsProps) {
+export function PricingCards({
+  className,
+  plans,
+  onBillingIntervalChange,
+}: PricingCardsProps) {
   const [billingInterval, setBillingInterval] = useState<
     "monthly" | "annually"
   >("annually");
+
+  const handleBillingIntervalChange = (interval: "monthly" | "annually") => {
+    setBillingInterval(interval);
+    if (onBillingIntervalChange) {
+      onBillingIntervalChange(interval);
+    }
+  };
+
   return (
     <div className={`flex justify-center overflow-hidden ${className}`}>
       <div className="container relative centered justify-center items-center flex flex-col">
@@ -80,14 +93,14 @@ export function PricingCards({ className, plans }: PricingCardsProps) {
           <div className="border border-white/10 rounded-[24px] p-2 bg-gradient-to-r from-[#1A1A1A] via-[#2c2c2c] via-[40%] to-[#1A1A1A] flex text-base">
             <IntervalButton
               active={billingInterval === "monthly"}
-              onClick={() => setBillingInterval("monthly")}
+              onClick={() => handleBillingIntervalChange("monthly")}
             >
               Monthly
             </IntervalButton>
             <IntervalButton
               active={billingInterval === "annually"}
               className="ml-2 flex items-center gap-[12px]"
-              onClick={() => setBillingInterval("annually")}
+              onClick={() => handleBillingIntervalChange("annually")}
             >
               <span>Annually</span>
               <span className="font-mono text-white uppercase bg-[var(--primary-color)] font-thin text-xs p-[8px] rounded-[8px]">

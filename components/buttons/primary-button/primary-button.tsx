@@ -19,7 +19,7 @@ export function PrimaryButton({
 }) {
   const circleRef = useRef<HTMLSpanElement>(null);
   const handleMouseMove = (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     if (circleRef.current) {
       const rect = e.currentTarget.getBoundingClientRect();
@@ -50,7 +50,12 @@ export function PrimaryButton({
           hover:scale-[0.98] transition-transform duration-100 active:scale-[0.95]
           sm:text-base text-[0.95rem] 
          ${className}`}
-        onClick={onClick}
+        onClick={(e) => {
+          if (onClick) {
+            e.preventDefault();
+            onClick();
+          }
+        }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         target={target}
