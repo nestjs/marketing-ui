@@ -150,7 +150,13 @@ export function PricingCards({
                       {plan.symbol}
                       {plan.price}
                     </span>
-                    <span className="text-sm opacity-80 font-mono ml-2 font-light">
+                    {plan.originalPrice && (
+                      <span className="text-lg opacity-50 line-through">
+                        {plan.symbol}
+                        {plan.originalPrice}
+                      </span>
+                    )}
+                    <span className="text-sm opacity-80 font-mono ml-1 font-light">
                       billed{" "}
                       {billingInterval === "monthly" ? "monthly" : "annually"}
                     </span>
