@@ -30,7 +30,7 @@ export function LettersReveal({
           type: "chars",
           charsClass: "inline-block will-change-transform opacity-20",
           reduceWhiteSpace: false,
-        },
+        }
       );
 
       split.chars.forEach((el) => {
@@ -43,7 +43,7 @@ export function LettersReveal({
       let lastTwoWordsStartIndex = chars.length - 1;
       let spaceCount = 0;
       for (let i = chars.length - 1; i >= 0; i--) {
-        if (chars[i].textContent.trim() === "") {
+        if (chars[i].textContent!.trim() === "") {
           lastTwoWordsStartIndex = i + 1;
           spaceCount++;
           if (spaceCount === 2) {
