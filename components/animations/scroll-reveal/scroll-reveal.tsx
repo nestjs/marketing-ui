@@ -133,7 +133,7 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
     blurStrength,
   ]);
 
-  const refreshScrollRef = useRef<NodeJS.Timeout | null>(null);
+  const refreshScrollRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
     const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
     if (isMobile) {

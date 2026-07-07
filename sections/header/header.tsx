@@ -45,6 +45,8 @@ export type HeaderProps = {
     css: string;
   };
   menuAction?: React.ReactNode;
+  background?: boolean;
+  variant?: "full" | "menu";
 };
 
 const HIDE_SUBMENU_DELAY = 2000; // ms
@@ -64,6 +66,8 @@ export function Header({
   bottomPanel,
   fadeInColors,
   menuAction,
+  background = true,
+  variant = "full",
   actions = (
     <>
       <PrimaryButton
@@ -87,7 +91,9 @@ export function Header({
     items: MenuItem["children"] | null;
   }>(INITIAL_SUBMENU_STATE);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const hideSubmenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hideSubmenuTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
   const [auroraReady, setAuroraReady] = useState(false);
 
   const onMenuItemMouseEnter = useCallback(
@@ -109,7 +115,7 @@ export function Header({
         });
       }
     },
-    []
+    [],
   );
 
   const scheduleHideSubmenu = useCallback((item: MenuItem) => {
@@ -147,7 +153,7 @@ export function Header({
         scheduleHideSubmenu(item);
       }
     },
-    []
+    [],
   );
 
   const submenuBackgroundColor = useMemo(() => {
@@ -193,17 +199,19 @@ export function Header({
   }, [fadeInColors]);
 
   return (
-    <header className="sm:p-10 p-4">
+    <header className={`${variant === "menu" ? "" : "sm:p-10 p-4"}`}>
       <div
         ref={headerRef}
         className={`flex justify-center overflow-hidden relative pb-16 sm:rounded-[32px] rounded-[16px] 
-          ${auroraReady ? "opacity-100" : "opacity-0"}
+          ${auroraReady || variant === "menu" ? "opacity-100" : "opacity-0"}
           ${
-            shrink
-              ? "xl:h-[91vh] min-h-[780px] xl:max-h-[920px]"
-              : bottomPanel
-                ? "min-h-[680px] flex-col items-center"
-                : "xl:h-[85vh] min-h-[680px] xl:max-h-[920px]"
+            variant === "menu"
+              ? ""
+              : shrink
+                ? "xl:h-[91vh] min-h-[780px] xl:max-h-[920px]"
+                : bottomPanel
+                  ? "min-h-[680px] flex-col items-center"
+                  : "xl:h-[85vh] min-h-[680px] xl:max-h-[920px]"
           }`}
       >
         {fadeInColors ? (
@@ -219,24 +227,26 @@ export function Header({
               }}
             ></div>
           </>
-        ) : (
+        ) : background ? (
           <div className="absolute inset-0 bg-gradient-to-r from-[#050303] via-[#780f20] to-[#050303]"></div>
+        ) : null}
+        {background && (
+          <LazyRender
+            className="absolute inset-0 z-0 top-[0px] bottom-[0px] left-[0px] right-[0px] pointer-events-none"
+            threshold={0}
+            rootMargin="800px 0px 0px 0px"
+            skip={!!fadeInColors}
+          >
+            <>
+              <Aurora
+                onReady={() => setAuroraReady(true)}
+                transitionColorStops={fadeInColors ? fadeInColors : undefined}
+                glowColor={fadeInColors ? fadeInColors.desktop[1] : undefined}
+              />
+              <NoiseOverlay />
+            </>
+          </LazyRender>
         )}
-        <LazyRender
-          className="absolute inset-0 z-0 top-[0px] bottom-[0px] left-[0px] right-[0px] pointer-events-none"
-          threshold={0}
-          rootMargin="800px 0px 0px 0px"
-          skip={!!fadeInColors}
-        >
-          <>
-            <Aurora
-              onReady={() => setAuroraReady(true)}
-              transitionColorStops={fadeInColors ? fadeInColors : undefined}
-              glowColor={fadeInColors ? fadeInColors.desktop[1] : undefined}
-            />
-            <NoiseOverlay />
-          </>
-        </LazyRender>
         <div
           className={`container relative z-10 transition-opacity duration-500 2xl:px-0 md:px-8 px-6`}
         >
@@ -246,6 +256,9 @@ export function Header({
                 <div
                   className={`${classes.navPanel} flex items-center p-5 bg-black/60 sm:rounded-[32px] rounded-[16px] justify-between lg:justify-start`}
                 >
+                  {variant === "menu" ? (
+                    <div className="border border-white/10 absolute inset-0 sm:rounded-[32px] rounded-[16px] pointer-events-none" />
+                  ) : null}
                   <div className="flex justify-start">
                     <a href="https://nestjs.com">
                       <img src="/logo.svg" alt="NestJS Logo" className="h-10" />
@@ -390,40 +403,42 @@ export function Header({
               </SpotlightCard>
             </div>
           </BlurIn>
-          <div
-            className={`centered text-center pt-[6.5rem] 2xl:pt-[7rem] flex flex-col items-center ${
-              bottomPanel ? "pb-0" : "pb-40"
-            }`}
-          >
-            {breadcrumb && (
-              <BlurIn>
-                <SectionSubheading>{breadcrumb}</SectionSubheading>
-              </BlurIn>
-            )}
-            <h1
-              className={`
+          {variant === "full" && (
+            <div
+              className={`centered text-center pt-[6.5rem] 2xl:pt-[7rem] flex flex-col items-center ${
+                bottomPanel ? "pb-0" : "pb-40"
+              }`}
+            >
+              {breadcrumb && (
+                <BlurIn>
+                  <SectionSubheading>{breadcrumb}</SectionSubheading>
+                </BlurIn>
+              )}
+              <h1
+                className={`
               ${
                 shrink
                   ? "lg:text-[7rem] lg:leading-[0.95] text-5xl md:text-7xl leading-[1.1]"
                   : "lg:text-[4rem] lg:leading-[1.15] text-4xl md:text-5xl leading-[1]"
               } font-medium max-w-4xl self-center px-4 sm:px-0
             `}
-            >
-              <WordByWord>{heading}</WordByWord>
-            </h1>
-            <BlurIn delay={0.35}>
-              <p className="mt-4 sm:text-sm text-[0.8rem] font-light font-mono opacity-80 max-w-2xl sm:leading-[24px] leading-[22px] lg:p-0 px-8">
-                {subheading}
-              </p>
-            </BlurIn>
-            {actions && (
-              <div className={`${shrink ? "mt-24 2xl:mt-20" : "mt-10"}`}>
-                <BlurIn delay={0.7} distance={10}>
-                  {actions}
-                </BlurIn>
-              </div>
-            )}
-          </div>
+              >
+                <WordByWord>{heading}</WordByWord>
+              </h1>
+              <BlurIn delay={0.35}>
+                <p className="mt-4 sm:text-sm text-[0.8rem] font-light font-mono opacity-80 max-w-2xl sm:leading-[24px] leading-[22px] lg:p-0 px-8">
+                  {subheading}
+                </p>
+              </BlurIn>
+              {actions && (
+                <div className={`${shrink ? "mt-24 2xl:mt-20" : "mt-10"}`}>
+                  <BlurIn delay={0.7} distance={10}>
+                    {actions}
+                  </BlurIn>
+                </div>
+              )}
+            </div>
+          )}
         </div>
         <div className="absolute right-20 bottom-[3.75rem] sm:leading-10 leading-8 font-mono sm:text-sm text-xs sm:text-right text-center">
           {stats && (
@@ -501,7 +516,9 @@ export function Header({
           style={{
             background: fadeInColors
               ? `linear-gradient(135deg, ${submenuBackgroundColor?.from} 0%, ${submenuBackgroundColor?.to} 100%)`
-              : `linear-gradient(135deg, #4e242a 0%, #44161e 100%)`,
+              : variant === "menu"
+                ? `linear-gradient(135deg, #0a0a0a 0%, #181818 100%)`
+                : `linear-gradient(135deg, #4e242a 0%, #44161e 100%)`,
           }}
         >
           {submenu.items?.map((child) => (
