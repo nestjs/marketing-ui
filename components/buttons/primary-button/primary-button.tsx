@@ -8,6 +8,8 @@ export function PrimaryButton({
   target,
   inline = true,
   radius = "20px",
+  size = "medium",
+  disabled = false,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
@@ -16,6 +18,8 @@ export function PrimaryButton({
   target?: string;
   inline?: boolean;
   radius?: string;
+  size?: "small" | "medium";
+  disabled?: boolean;
 }) {
   const circleRef = useRef<HTMLSpanElement>(null);
   const handleMouseMove = (
@@ -46,10 +50,17 @@ export function PrimaryButton({
       <a
         href={href}
         className={`btn bg-white rounded text-black font-bold 
-          pt-5 pb-5 pl-5 pr-5 rounded-[${radius}] inset-0 overflow-hidden relative
+          ${
+            size === "medium"
+              ? "pt-5 pb-5 pl-5 pr-5 sm:text-base text-[0.95rem] "
+              : "pt-4 pb-4 pl-4 pr-4 sm:text-[15px] text-[0.90rem]"
+          } rounded-[${radius}] inset-0 overflow-hidden relative
           hover:scale-[0.98] transition-transform duration-100 active:scale-[0.95]
-          sm:text-base text-[0.95rem] 
-         ${className}`}
+         ${className} ${
+           disabled
+             ? "opacity-50 cursor-not-allowed pointer-events-none scale-[0.95]"
+             : ""
+         }`}
         onClick={(e) => {
           if (onClick) {
             e.preventDefault();
