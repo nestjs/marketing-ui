@@ -6,16 +6,20 @@ export function TransparentButton({
   onClick,
   className = "",
   target,
+  inline = true,
+  size = "medium",
 }: {
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
   href?: string;
   target?: string;
+  inline?: boolean;
+  size?: "small" | "medium";
 }) {
   const circleRef = useRef<HTMLSpanElement>(null);
   const handleMouseMove = (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     if (circleRef.current) {
       const rect = e.currentTarget.getBoundingClientRect();
@@ -34,11 +38,17 @@ export function TransparentButton({
   };
 
   return (
-    <div className="relative inline-flex overflow-hidden">
+    <div
+      className={`relative ${inline ? "inline-flex" : "flex"} overflow-hidden`}
+    >
       <a
         href={href}
         className={`btn bg-secondary rounded text-white font-bold 
-          pt-5 pb-5 pl-5 pr-5 rounded-[20px] inset-0 overflow-hidden relative
+          ${
+            size === "medium"
+              ? "pt-5 pb-5 pl-5 pr-5 sm:text-base text-[0.95rem] "
+              : "pt-4 pb-4 pl-4 pr-4 sm:text-[15px] text-[0.90rem]"
+          } rounded-[20px] inset-0 overflow-hidden relative
           hover:scale-[0.98] transition-transform duration-100
           active:scale-[0.95] sm:text-base text-[0.95rem] 
          ${className}`}

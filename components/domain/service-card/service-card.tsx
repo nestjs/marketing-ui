@@ -35,12 +35,14 @@ export function ServiceCard({
       setActiveCardItem((prev) => (prev + 1) % cardItems.length),
     onSwipeRight: () =>
       setActiveCardItem(
-        (prev) => (prev - 1 + cardItems.length) % cardItems.length
+        (prev) => (prev - 1 + cardItems.length) % cardItems.length,
       ),
   });
   const [showTooltip, setShowTooltip] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
-  const itemUpdateIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const itemUpdateIntervalRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (!tooltipRef.current) return;
@@ -50,13 +52,13 @@ export function ServiceCard({
   };
 
   const handleMouseEnter = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     setShowTooltip(true);
   };
 
   const handleMouseLeave = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     setShowTooltip(false);
   };
@@ -71,7 +73,7 @@ export function ServiceCard({
         setActiveCardItem((prev) => (prev + 1) % cardItems.length);
       }, CARD_CHANGE_INTERVAL);
     },
-    [cardItems.length]
+    [cardItems.length],
   );
 
   useEffect(() => {

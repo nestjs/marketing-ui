@@ -40,7 +40,7 @@ const FlashlightText: React.FC<Props> = ({ text, radius = 400 }) => {
     [radius],
   );
 
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const handleClick = useCallback(() => {
     navigator.clipboard.writeText(
       `$ npm i -g @nestjs/cli\n$ nest new project-name`,
