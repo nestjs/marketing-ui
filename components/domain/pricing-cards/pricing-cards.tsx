@@ -26,6 +26,7 @@ export type Plan = {
 interface PricingCardsProps {
   className?: string;
   plans?: Plan[];
+  billingInterval?: "monthly" | "annually";
   onBillingIntervalChange?: (interval: "monthly" | "annually") => void;
 }
 
@@ -57,14 +58,20 @@ function IntervalButton({
 export function PricingCards({
   className,
   plans,
+  billingInterval: controlledBillingInterval,
   onBillingIntervalChange,
 }: PricingCardsProps) {
-  const [billingInterval, setBillingInterval] = useState<
+  const [uncontrolledBillingInterval, setUncontrolledBillingInterval] = useState<
     "monthly" | "annually"
   >("annually");
+  const billingInterval =
+    controlledBillingInterval ?? uncontrolledBillingInterval;
 
   const handleBillingIntervalChange = (interval: "monthly" | "annually") => {
-    setBillingInterval(interval);
+    if (!controlledBillingInterval) {
+      setUncontrolledBillingInterval(interval);
+    }
+
     if (onBillingIntervalChange) {
       onBillingIntervalChange(interval);
     }
