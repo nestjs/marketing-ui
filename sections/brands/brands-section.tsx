@@ -184,7 +184,7 @@ export function BrandsSection() {
                           ? "none"
                           : "blur(4px) opacity(0.45)",
                     transition: "filter 0.3s ease-in-out",
-                  }}
+                  }} rel="noreferrer"
                 >
                   {logo.node}
                 </a>

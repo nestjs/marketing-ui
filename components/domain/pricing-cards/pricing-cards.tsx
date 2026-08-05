@@ -26,6 +26,14 @@ export type Plan = {
 interface PricingCardsProps {
   className?: string;
   plans?: Plan[];
+  /**
+   * Whole-percent saving advertised on the annual toggle, e.g. `40`.
+   *
+   * Passed in rather than written into the markup: this badge read "Save 41%"
+   * against prices the caller had computed at a different rate, so the toggle
+   * promised a discount the figures beside it did not give.
+   */
+  annualDiscountPercent?: number;
   onBillingIntervalChange?: (interval: "monthly" | "annually") => void;
 }
 
@@ -57,6 +65,7 @@ function IntervalButton({
 export function PricingCards({
   className,
   plans,
+  annualDiscountPercent,
   onBillingIntervalChange,
 }: PricingCardsProps) {
   const [billingInterval, setBillingInterval] = useState<
@@ -103,9 +112,14 @@ export function PricingCards({
               onClick={() => handleBillingIntervalChange("annually")}
             >
               <span>Annually</span>
-              <span className="font-mono text-white uppercase bg-[var(--primary-color)] font-thin text-xs p-[8px] rounded-[8px]">
-                Save 41%
-              </span>
+              {/* Omitted rather than defaulted when the caller says nothing:
+                  an invented figure beside real prices is the bug this prop
+                  exists to prevent. */}
+              {annualDiscountPercent !== undefined && (
+                <span className="font-mono text-white uppercase bg-[var(--primary-color)] font-thin text-xs p-[8px] rounded-[8px]">
+                  Save {annualDiscountPercent}%
+                </span>
+              )}
             </IntervalButton>
           </div>
         </BlurIn>
