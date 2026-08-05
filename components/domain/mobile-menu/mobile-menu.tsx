@@ -103,7 +103,7 @@ export function MobileMenu({ open, close, items }: MobileMenuProps) {
           <a
             href="https://github.com/nestjs"
             target="_blank"
-            className="icon m-l-30 hover:opacity-60 transition-opacity"
+            className="icon m-l-30 hover:opacity-60 transition-opacity" rel="noreferrer"
           >
             <svg
               role="img"
@@ -116,7 +116,7 @@ export function MobileMenu({ open, close, items }: MobileMenuProps) {
           <a
             href="https://twitter.com/nestframework"
             target="_blank"
-            className="icon hover:opacity-60 transition-opacity"
+            className="icon hover:opacity-60 transition-opacity" rel="noreferrer"
           >
             <svg
               role="img"
@@ -129,7 +129,7 @@ export function MobileMenu({ open, close, items }: MobileMenuProps) {
           <a
             href="https://discord.com/invite/G7Qnnhy"
             target="_blank"
-            className="icon hover:opacity-60 transition-opacity"
+            className="icon hover:opacity-60 transition-opacity" rel="noreferrer"
           >
             <svg
               role="img"
@@ -142,7 +142,7 @@ export function MobileMenu({ open, close, items }: MobileMenuProps) {
           <a
             href="https://linkedin.com/company/19078346"
             target="_blank"
-            className="icon hover:opacity-60 transition-opacity"
+            className="icon hover:opacity-60 transition-opacity" rel="noreferrer"
           >
             <img
               src={LinkedinIcon}
