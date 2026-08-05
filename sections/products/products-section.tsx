@@ -51,7 +51,7 @@ export function ProductsSection() {
           <ServiceCard
             title="Deploy, mau!"
             description="Provision and manage your infrastracture on AWS without the hassle and extra DevOps work."
-            screenshots={[Mau1, Mau3, Mau2]}
+            screenshots={[Mau2, Mau3, Mau1]}
             onClick={() => {
               window.open("https://mau.nestjs.com/", "_blank");
             }}
