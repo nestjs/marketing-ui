@@ -11,6 +11,12 @@ type FeatureSectionProps = {
     description: string;
   }>;
   image: string;
+  /**
+   * Extra classes for the image itself, for sections illustrated with a
+   * product screenshot rather than the usual rendered art: a screenshot needs
+   * a frame to sit on a dark page, and the art must not get one.
+   */
+  imageClassName?: string;
   className?: string;
   reverse?: boolean;
 };
@@ -20,6 +26,7 @@ export function FeatureSection({
   title,
   items,
   image,
+  imageClassName = "",
   className = "",
   reverse = false,
 }: FeatureSectionProps) {
@@ -73,7 +80,10 @@ export function FeatureSection({
         </div>
         <div className="relative md:basis-[52%]">
           <AnimatedContent distance={150} delay={0.1} initialOpacity={0}>
-            <img src={image} className="w-full pointer-events-none" />
+            <img
+              src={image}
+              className={`w-full pointer-events-none ${imageClassName}`}
+            />
           </AnimatedContent>
         </div>
       </div>
