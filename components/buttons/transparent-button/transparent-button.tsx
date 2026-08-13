@@ -44,7 +44,7 @@ export function TransparentButton({
     }
   };
 
-  const classes = `btn bg-secondary rounded text-white font-bold
+  const classes = `btn bg-secondary rounded text-white font-bold hover:cursor-pointer
           ${
             size === "medium"
               ? "pt-5 pb-5 pl-5 pr-5 sm:text-base text-[0.95rem] "
