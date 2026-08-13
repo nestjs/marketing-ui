@@ -54,7 +54,7 @@ export function PrimaryButton({
     }
   };
 
-  const classes = `btn bg-white rounded text-black font-bold
+  const classes = `btn bg-white rounded text-black font-bold hover:cursor-pointer
           ${
             size === "medium"
               ? "pt-5 pb-5 pl-5 pr-5 sm:text-base text-[0.95rem] "
