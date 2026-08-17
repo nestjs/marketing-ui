@@ -122,7 +122,39 @@ export default function StackedCards({ cards }: StackedCardsProps) {
       ScrollTrigger.refresh();
     }, wrapperRef);
 
-    return () => ctx.revert();
+    /*
+     * The route chunk is lazy-loaded, so window "load" (ScrollTrigger's
+     * auto-refresh signal) has usually fired before this mounts. Images on
+     * the page reserve no space, so on a cold cache they finish loading
+     * after the refresh above and push the whole layout down — leaving every
+     * trigger start stale (cards pin over the preceding section and the
+     * handoff math breaks). Re-refresh as late images and fonts settle.
+     */
+    let disposed = false;
+    let refreshTimeout: ReturnType<typeof setTimeout> | undefined;
+    const queueRefresh = () => {
+      if (disposed) return;
+      clearTimeout(refreshTimeout);
+      refreshTimeout = setTimeout(() => ScrollTrigger.refresh(), 150);
+    };
+    const pendingImages = Array.from(document.images).filter(
+      (img) => !img.complete,
+    );
+    pendingImages.forEach((img) => {
+      img.addEventListener("load", queueRefresh, { once: true });
+      img.addEventListener("error", queueRefresh, { once: true });
+    });
+    document.fonts?.ready.then(queueRefresh);
+
+    return () => {
+      disposed = true;
+      clearTimeout(refreshTimeout);
+      pendingImages.forEach((img) => {
+        img.removeEventListener("load", queueRefresh);
+        img.removeEventListener("error", queueRefresh);
+      });
+      ctx.revert();
+    };
   }, []);
 
   const setWrapperRef = (el: HTMLDivElement | null, index: number) => {
