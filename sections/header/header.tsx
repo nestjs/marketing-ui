@@ -512,8 +512,9 @@ export function Header({
         }}
       >
         <div
-          className="w-max backdrop-blur-lg rounded-[24px] p-2 shadow-xl shadow-xl/20 border border-white/15 flex max-w-[768px]"
+          className="w-max backdrop-blur-lg rounded-[24px] p-2 shadow-xl shadow-xl/20 border border-white/15 flex"
           style={{
+            maxWidth: "1120px",
             background: fadeInColors
               ? `linear-gradient(135deg, ${submenuBackgroundColor?.from} 0%, ${submenuBackgroundColor?.to} 100%)`
               : variant === "menu"
