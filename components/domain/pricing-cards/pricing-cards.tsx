@@ -177,7 +177,7 @@ export function PricingCards({
                       </span>
                     )}
                     <span className="text-sm opacity-80 font-mono ml-1 font-light">
-                      billed{" "}
+                      {billingInterval === "monthly" ? "" : "per month "}billed{" "}
                       {billingInterval === "monthly" ? "monthly" : "annually"}
                     </span>
                   </div>
