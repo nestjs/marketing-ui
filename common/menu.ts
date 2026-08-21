@@ -1,6 +1,5 @@
 import DevtoolsThumbnail from "../assets/thumbnails/devtools.png";
 import MauThumbnail from "../assets/thumbnails/mau.png";
-import ObserveThumbnail from "../assets/thumbnails/observe.png";
 
 export type MenuItem = {
   id: string;
@@ -32,13 +31,13 @@ export const MENU_ITEMS: Array<MenuItem> = [
     label: "Tools",
     href: "#",
     children: [
-      {
-        id: "observe",
-        label: "Observe",
-        href: "https://observe.nestjs.com",
-        description: "Monitor and analyze your applications in real-time.",
-        thumbnail: ObserveThumbnail,
-      },
+      // {
+      //   id: "observe",
+      //   label: "Observe",
+      //   href: "https://observe.nestjs.com",
+      //   description: "Monitor and analyze your applications in real-time.",
+      //   thumbnail: ObserveThumbnail,
+      // },
       {
         id: "devtools",
         label: "Devtools",
@@ -53,7 +52,6 @@ export const MENU_ITEMS: Array<MenuItem> = [
         description: "Provision and manage your infrastructure on AWS.",
         thumbnail: MauThumbnail,
       },
-      
     ],
   },
   { id: "jobs", label: "Jobs", href: "https://jobs.nestjs.com" },
