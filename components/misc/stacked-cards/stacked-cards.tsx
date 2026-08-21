@@ -20,19 +20,22 @@ export default function StackedCards({ cards }: StackedCardsProps) {
     const cards = cardsRef.current;
 
     const ctx = gsap.context(() => {
+      const triggers: ScrollTrigger[] = [];
+
       wrappers.forEach((wrapper, i) => {
         const card = cards[i];
+        const isLast = i === cards.length - 1;
         let scale = 1,
           rotationX = 0,
           rotationY = 0;
 
-        if (i !== cards.length - 1) {
+        if (!isLast) {
           scale = 0;
           rotationX = 30;
           rotationY = i % 2 === 0 ? -10 : 10;
         }
 
-        gsap.to(card, {
+        const tween = gsap.to(card, {
           scale,
           rotationX,
           rotationY,
@@ -48,22 +51,47 @@ export default function StackedCards({ cards }: StackedCardsProps) {
             pinSpacing: false,
             id: i + 1,
             invalidateOnRefresh: true,
-            onUpdate: (self: gsap.core.Tween) => {
+            onUpdate: (self: ScrollTrigger) => {
+              // Every trigger spans from its card's dock to the end of the
+              // whole stack (the shared end keeps the pins, and therefore the
+              // stacking, alive). With more than 2 cards self.progress covers
+              // several transitions, so normalize it to one transition plus
+              // the shared tail — the span the 2-card version was tuned
+              // against. The tail lets a card finish its exit behind the card
+              // that has already docked on top of it instead of vanishing
+              // right at the handoff.
+              const nextTrigger = triggers[i + 1];
+              const lastTrigger = triggers[cards.length - 1];
+              const transition =
+                nextTrigger && lastTrigger
+                  ? nextTrigger.start -
+                    self.start +
+                    (self.end - lastTrigger.start)
+                  : 0;
+              const progress =
+                transition > 0
+                  ? gsap.utils.clamp(
+                      0,
+                      1,
+                      (self.scroll() - self.start) / transition,
+                    )
+                  : self.progress;
+
               const progressOffset = 0.5;
               let adjustedProgress =
-                (self.progress - progressOffset) / (1 - progressOffset);
+                (progress - progressOffset) / (1 - progressOffset);
               adjustedProgress = gsap.utils.clamp(0, 1, adjustedProgress);
               const adjustedOpacity = gsap.utils.clamp(
                 0,
                 1,
-                (0.85 - self.progress) / (0.85 - 0.75),
+                (0.85 - progress) / (0.85 - 0.75),
               );
 
               gsap.set(card, {
                 scale: 1 + (scale - 1) * adjustedProgress,
                 rotationX: rotationX * adjustedProgress,
                 rotationY: rotationY * adjustedProgress,
-                opacity: i === cards.length - 1 ? 1 : adjustedOpacity,
+                opacity: isLast ? 1 : adjustedOpacity,
               });
 
               const factor = gsap.utils.clamp(
@@ -77,11 +105,7 @@ export default function StackedCards({ cards }: StackedCardsProps) {
 
               const nextCard = cards[i + 1];
               if (nextCard) {
-                const normalizedProgress = gsap.utils.clamp(
-                  0,
-                  1,
-                  self.progress * cards.length,
-                );
+                const normalizedProgress = gsap.utils.clamp(0, 1, progress * 2);
                 const nextTranslateY = Math.max(
                   0,
                   window.innerHeight * (1 - normalizedProgress),
@@ -91,12 +115,46 @@ export default function StackedCards({ cards }: StackedCardsProps) {
             },
           },
         });
+
+        triggers.push(tween.scrollTrigger);
       });
 
       ScrollTrigger.refresh();
     }, wrapperRef);
 
-    return () => ctx.revert();
+    /*
+     * The route chunk is lazy-loaded, so window "load" (ScrollTrigger's
+     * auto-refresh signal) has usually fired before this mounts. Images on
+     * the page reserve no space, so on a cold cache they finish loading
+     * after the refresh above and push the whole layout down — leaving every
+     * trigger start stale (cards pin over the preceding section and the
+     * handoff math breaks). Re-refresh as late images and fonts settle.
+     */
+    let disposed = false;
+    let refreshTimeout: ReturnType<typeof setTimeout> | undefined;
+    const queueRefresh = () => {
+      if (disposed) return;
+      clearTimeout(refreshTimeout);
+      refreshTimeout = setTimeout(() => ScrollTrigger.refresh(), 150);
+    };
+    const pendingImages = Array.from(document.images).filter(
+      (img) => !img.complete,
+    );
+    pendingImages.forEach((img) => {
+      img.addEventListener("load", queueRefresh, { once: true });
+      img.addEventListener("error", queueRefresh, { once: true });
+    });
+    document.fonts?.ready.then(queueRefresh);
+
+    return () => {
+      disposed = true;
+      clearTimeout(refreshTimeout);
+      pendingImages.forEach((img) => {
+        img.removeEventListener("load", queueRefresh);
+        img.removeEventListener("error", queueRefresh);
+      });
+      ctx.revert();
+    };
   }, []);
 
   const setWrapperRef = (el: HTMLDivElement | null, index: number) => {

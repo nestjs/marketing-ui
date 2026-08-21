@@ -4,6 +4,9 @@ import Devtools3 from "../../assets/screenshots/devtools_3.png";
 import Mau1 from "../../assets/screenshots/mau_1.png";
 import Mau2 from "../../assets/screenshots/mau_2.png";
 import Mau3 from "../../assets/screenshots/mau_3.png";
+import Observe1 from "../../assets/screenshots/observe_1.png";
+import Observe2 from "../../assets/screenshots/observe_2.png";
+import Observe3 from "../../assets/screenshots/observe_3.png";
 import { BlurIn } from "../../components/animations/blur-in/blur-in";
 import { LettersReveal } from "../../components/animations/letters-reveal/letters-reveal";
 import Particles from "../../components/backgrounds/particles/particles";
@@ -49,32 +52,33 @@ export function ProductsSection() {
       <StackedCards
         cards={[
           <ServiceCard
-            title="Deploy, mau!"
-            description="Provision and manage your infrastracture on AWS without the hassle and extra DevOps work."
-            screenshots={[Mau2, Mau3, Mau1]}
+            title="Observe"
+            description="Zero-Config Auto-Instrumented Observability for your NestJS applications."
+            screenshots={[Observe1, Observe2, Observe3]}
             onClick={() => {
-              window.open("https://mau.nestjs.com/", "_blank");
+              window.open("https://observe.nestjs.com/", "_blank");
             }}
             colors={["#111111", "#202020", "#111"]}
             itemsBackground="radial-gradient(circle at 75% 50%, rgba(40, 40, 40, 1), #191919 25%)"
             cardItems={[
               {
-                title: "One-click deployment",
+                title: "Auto-instrumented observability",
                 description:
-                  "Deploy your Nest application to AWS with a single command and let us handle the rest.",
+                  "Get real-time insights into your application's performance, requests, jobs, spans, everything, without any manual instrumentation.",
               },
               {
-                title: "Stream your logs",
+                title: "Error monitoring",
                 description:
-                  "Get real-time visibility into log data, detect anomalies immediately, and respond swiftly.",
+                  "Detect, triage, and resolve errors faster with detailed error reports and stack traces.",
               },
               {
-                title: "Track your metrics",
+                title: "Streamlined logs",
                 description:
-                  "Monitor key performance indicators to ensure optimal application performance.",
+                  "Centralize and analyze your logs in real-time, making it easier to identify issues and optimize performance.",
               },
             ]}
           />,
+          
           <ServiceCard
             title="Devtools"
             description="Enhance your development workflow with powerful tools designed to streamline your Nest application development."
@@ -98,6 +102,34 @@ export function ProductsSection() {
                 title: "CI/CD integration",
                 description:
                   "Seamlessly integrate with your CI/CD pipeline to detect issues early.",
+              },
+            ]}
+          />,
+
+          <ServiceCard
+            title="Deploy, mau!"
+            description="Provision and manage your infrastracture on AWS without the hassle and extra DevOps work."
+            screenshots={[Mau2, Mau3, Mau1]}
+            onClick={() => {
+              window.open("https://mau.nestjs.com/", "_blank");
+            }}
+            colors={["#424242", "#868686", "#707070"]}
+            itemsBackground="radial-gradient(circle at 75% 50%, rgba(40, 40, 40, 1), #191919 25%)"
+            cardItems={[
+              {
+                title: "One-click deployment",
+                description:
+                  "Deploy your Nest application to AWS with a single command and let us handle the rest.",
+              },
+              {
+                title: "Stream your logs",
+                description:
+                  "Get real-time visibility into log data, detect anomalies immediately, and respond swiftly.",
+              },
+              {
+                title: "Track your metrics",
+                description:
+                  "Monitor key performance indicators to ensure optimal application performance.",
               },
             ]}
           />,
