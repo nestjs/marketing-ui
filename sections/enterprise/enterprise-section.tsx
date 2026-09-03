@@ -63,8 +63,8 @@ export function EnterpriseSection({
   variant?: "quote" | "description";
 }) {
   return (
-    <>
-      <div className={`flex justify-center ${className}`}>
+    <div className={`relative z-10 bg-bg ${className || ""}`}>
+      <div className={`flex justify-center`}>
         <div className="container relative md:px-0 px-5">
           <div className="grid md:grid-cols-[60%_10%_30%] sm:grid-cols-[60%_5%_35%] grid-rows-[auto] gap-0">
             <div>
@@ -206,7 +206,7 @@ export function EnterpriseSection({
                 distance={10}
                 className="enterprise-card"
               >
-                <div className="flex flex-col relative text-white flex-start h-full card flex flex-col sm:justify-center sm:flex-start relative lg:aspect-[4/3] min-h-[200px] w-full max-w-full md:px-16 md:py-8 px-8 py-12">
+                <div className="flex flex-col relative text-white flex-start h-full card  sm:justify-center sm:flex-start relative lg:aspect-[4/3] min-h-[200px] w-full max-w-full md:px-16 md:py-8 px-8 py-12">
                   {card.icon && <div className="mb-8">{card.icon}</div>}
                   <h3
                     className={`text-left font-medium xl:text-lg text-md m-0 mb-1`}
@@ -226,6 +226,6 @@ export function EnterpriseSection({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
