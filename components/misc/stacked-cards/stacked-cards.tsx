@@ -35,6 +35,67 @@ export default function StackedCards({ cards }: StackedCardsProps) {
           rotationY = i % 2 === 0 ? -10 : 10;
         }
 
+        const render = (self: ScrollTrigger) => {
+          // Every trigger spans from its card's dock to the end of the
+          // whole stack (the shared end keeps the pins, and therefore the
+          // stacking, alive). With more than 2 cards self.progress covers
+          // several transitions, so normalize it to one transition plus
+          // the shared tail — the span the 2-card version was tuned
+          // against. The tail lets a card finish its exit behind the card
+          // that has already docked on top of it instead of vanishing
+          // right at the handoff.
+          const nextTrigger = triggers[i + 1];
+          const lastTrigger = triggers[cards.length - 1];
+          const transition =
+            nextTrigger && lastTrigger
+              ? nextTrigger.start - self.start + (self.end - lastTrigger.start)
+              : 0;
+          const progress =
+            transition > 0
+              ? gsap.utils.clamp(
+                  0,
+                  1,
+                  (self.scroll() - self.start) / transition,
+                )
+              : self.progress;
+
+          const progressOffset = 0.5;
+          let adjustedProgress =
+            (progress - progressOffset) / (1 - progressOffset);
+          adjustedProgress = gsap.utils.clamp(0, 1, adjustedProgress);
+          const adjustedOpacity = gsap.utils.clamp(
+            0,
+            1,
+            (0.85 - progress) / (0.85 - 0.75),
+          );
+
+          gsap.set(card, {
+            scale: 1 + (scale - 1) * adjustedProgress,
+            rotationX: rotationX * adjustedProgress,
+            rotationY: rotationY * adjustedProgress,
+            opacity: isLast ? 1 : adjustedOpacity,
+          });
+
+          const factor = gsap.utils.clamp(
+            0,
+            0.5,
+            (window.innerHeight - 854) / 1000,
+          );
+
+          const scrollHeight = window.innerHeight * factor;
+          wrapperRef.current!.style.marginBottom = `${scrollHeight}px`;
+
+          const nextCard = cards[i + 1];
+          if (nextCard) {
+            const normalizedProgress = gsap.utils.clamp(0, 1, progress * 2);
+            const nextTranslateY = Math.max(
+              0,
+              window.innerHeight * (1 - normalizedProgress),
+            );
+            gsap.set(nextCard, { translateY: nextTranslateY });
+          }
+        };
+
         const tween = gsap.to(card, {
           scale,
           rotationX,
@@ -51,68 +112,13 @@ export default function StackedCards({ cards }: StackedCardsProps) {
             pinSpacing: false,
             id: i + 1,
             invalidateOnRefresh: true,
-            onUpdate: (self: ScrollTrigger) => {
-              // Every trigger spans from its card's dock to the end of the
-              // whole stack (the shared end keeps the pins, and therefore the
-              // stacking, alive). With more than 2 cards self.progress covers
-              // several transitions, so normalize it to one transition plus
-              // the shared tail — the span the 2-card version was tuned
-              // against. The tail lets a card finish its exit behind the card
-              // that has already docked on top of it instead of vanishing
-              // right at the handoff.
-              const nextTrigger = triggers[i + 1];
-              const lastTrigger = triggers[cards.length - 1];
-              const transition =
-                nextTrigger && lastTrigger
-                  ? nextTrigger.start -
-                    self.start +
-                    (self.end - lastTrigger.start)
-                  : 0;
-              const progress =
-                transition > 0
-                  ? gsap.utils.clamp(
-                      0,
-                      1,
-                      (self.scroll() - self.start) / transition,
-                    )
-                  : self.progress;
-
-              const progressOffset = 0.5;
-              let adjustedProgress =
-                (progress - progressOffset) / (1 - progressOffset);
-              adjustedProgress = gsap.utils.clamp(0, 1, adjustedProgress);
-              const adjustedOpacity = gsap.utils.clamp(
-                0,
-                1,
-                (0.85 - progress) / (0.85 - 0.75),
-              );
-
-              gsap.set(card, {
-                scale: 1 + (scale - 1) * adjustedProgress,
-                rotationX: rotationX * adjustedProgress,
-                rotationY: rotationY * adjustedProgress,
-                opacity: isLast ? 1 : adjustedOpacity,
-              });
-
-              const factor = gsap.utils.clamp(
-                0,
-                0.5,
-                (window.innerHeight - 854) / 1000,
-              );
-
-              const scrollHeight = window.innerHeight * factor;
-              wrapperRef.current!.style.marginBottom = `${scrollHeight}px`;
-
-              const nextCard = cards[i + 1];
-              if (nextCard) {
-                const normalizedProgress = gsap.utils.clamp(0, 1, progress * 2);
-                const nextTranslateY = Math.max(
-                  0,
-                  window.innerHeight * (1 - normalizedProgress),
-                );
-                gsap.set(nextCard, { translateY: nextTranslateY });
-              }
-            },
+            onUpdate: render,
+            // onUpdate only fires while the scroll position changes inside
+            // the trigger's range. A refresh() (late images, fonts, resize)
+            // reverts the cards to their progress-0 state and does not call
+            // onUpdate, so when the page is already past the stack the cards
+            // stay stuck there — re-render from the refreshed geometry.
+            onRefresh: render,
           },
         });
 
