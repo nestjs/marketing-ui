@@ -91,7 +91,7 @@ export function Footer({ className }: { className?: string }) {
             id="newsletter"
             className="md:py-20 lg:py-30 sm:py-30 sm:px-20 md:px-8 lg:px-20 px-8 py-12 border-r border-[#262626] w-full flex flex-col relative md:align-self-center lg:align-self-start"
           >
-            <div className="absolute inset-0 left-0 right-0 top-0 bottom-0 z-0 overflow-hidden">
+            <div className="absolute inset-0 left-0 right-0 top-0 bottom-0 z-0 overflow-hidden md:rounded-bl-[32px] md:[&_canvas]:rounded-bl-[32px]">
               <LineWaves speed={0.1} />
               <div className="absolute bg-gradient-to-tl from-transparent from-0% to-[#151515] to-50% top-0 left-0 right-0 bottom-0 pointer-events-none" />
             </div>
