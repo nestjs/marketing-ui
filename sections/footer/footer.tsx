@@ -194,6 +194,14 @@ export function Footer({ className }: { className?: string }) {
                 <ul className="leading-9">
                   <li>
                     <a
+                      href="https://observe.nestjs.com/"
+                      className="font-semibold hover:underline hover:underline-offset-4 hover:opacity-80"
+                    >
+                      Observe
+                    </a>
+                  </li>
+                  <li>
+                    <a
                       href="https://devtools.nestjs.com/"
                       className="font-semibold hover:underline hover:underline-offset-4 hover:opacity-80"
                     >
