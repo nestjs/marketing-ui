@@ -17,6 +17,8 @@ export type Plan = {
   symbol: string;
   currency: string;
   trial?: boolean;
+  /** Button label; falls back to a generic "Get started". */
+  ctaLabel?: string;
   extraNote?: string;
   originalPrice?: string;
   discount?: number;
@@ -162,7 +164,7 @@ export function PricingCards({
           [-webkit-mask-image:radial-gradient(circle_at_top_right,black_0%,transparent_50%)]"
                   />
                   <h4 className="text-3xl font-normal mt-2">{plan.name}</h4>
-                  <p className="font-mono text-sm opacity-70 leading-6 font-light mt-4">
+                  <p className="font-mono text-sm opacity-70 leading-6 font-light mt-4 min-h-12">
                     {plan.shortDescription}
                   </p>
                   <div className="mt-8 mb-2 flex items-center gap-2">
@@ -187,7 +189,8 @@ export function PricingCards({
                       className={`w-full text-center`}
                       inline={false}
                     >
-                      {plan.trial ? "Start free trial" : "Deploy now"}
+                      {plan.ctaLabel ??
+                        (plan.trial ? "Start free trial" : "Get started")}
                     </PrimaryButton>
                   </div>
                   <ul className="mt-10 pb-10 space-y-5 flex-1">
