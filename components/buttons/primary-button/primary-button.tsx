@@ -59,7 +59,7 @@ export function PrimaryButton({
             size === "medium"
               ? "pt-5 pb-5 pl-5 pr-5 sm:text-base text-[0.95rem] "
               : "pt-4 pb-4 pl-4 pr-4 sm:text-[15px] text-[0.90rem]"
-          } rounded-[${radius}] inset-0 overflow-hidden relative
+          } appearance-none isolate inset-0 overflow-hidden relative
           hover:scale-[0.98] transition-transform duration-100 active:scale-[0.95]
          ${className} ${
            disabled
@@ -81,14 +81,26 @@ export function PrimaryButton({
     </>
   );
 
+  // Safari stops honouring an `overflow: hidden` + `border-radius` clip on
+  // composited children (the blurred, blended glow) while the element is being
+  // scaled, so for the length of the hover transition the glow escaped the
+  // rounded corners and showed as a red rectangle cut by the square wrapper.
+  // `isolate` keeps the button's own clip in place; the wrapper carries the
+  // same radius so a failed clip still cannot draw a square. The radius is
+  // inline because Tailwind cannot generate `rounded-[${radius}]` from a
+  // template literal.
+  const radiusStyle = { borderRadius: radius };
+
   return (
     <div
       className={`relative overflow-hidden ${inline ? "inline-flex" : "flex"}`}
+      style={radiusStyle}
     >
       {href ? (
         <a
           href={href}
           className={classes}
+          style={radiusStyle}
           onClick={onClick}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
@@ -101,6 +113,7 @@ export function PrimaryButton({
         <button
           type={type}
           className={classes}
+          style={radiusStyle}
           onClick={onClick}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
