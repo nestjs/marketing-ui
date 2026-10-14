@@ -86,8 +86,11 @@ export default function StackedCards({ cards }: StackedCardsProps) {
           const scrollHeight = window.innerHeight * factor;
           wrapperRef.current!.style.marginBottom = `${scrollHeight}px`;
 
+          // A refresh measures with the page scrolled to the top, where this
+          // would push the next card back down a full viewport. Leave it at
+          // rest (see resetOffsets) until renderAll runs after the refresh.
           const nextCard = cards[i + 1];
-          if (nextCard) {
+          if (nextCard && !ScrollTrigger.isRefreshing) {
             const normalizedProgress = gsap.utils.clamp(0, 1, progress * 2);
             const nextTranslateY = Math.max(
               0,
@@ -135,9 +138,23 @@ export default function StackedCards({ cards }: StackedCardsProps) {
       const renderAll = () => triggers.forEach((t, i) => renders[i](t));
       ScrollTrigger.addEventListener("refresh", renderAll);
 
+      // That revert doesn't cover the slide-in translateY, which no tween
+      // owns: the upcoming cards sit up to a full viewport below their resting
+      // place while everything is measured, so triggers inside them (the
+      // cards' BlurIn reveals) would only fire long after their card has
+      // docked. Put the cards at rest before measuring; renderAll restores
+      // the offset when the refresh is done.
+      const resetOffsets = () => {
+        gsap.set(cards, { translateY: 0 });
+      };
+      ScrollTrigger.addEventListener("refreshInit", resetOffsets);
+
       ScrollTrigger.refresh();
 
-      return () => ScrollTrigger.removeEventListener("refresh", renderAll);
+      return () => {
+        ScrollTrigger.removeEventListener("refresh", renderAll);
+        ScrollTrigger.removeEventListener("refreshInit", resetOffsets);
+      };
     }, wrapperRef);
 
     /*
@@ -163,6 +180,11 @@ export default function StackedCards({ cards }: StackedCardsProps) {
       img.addEventListener("error", queueRefresh, { once: true });
     });
     document.fonts?.ready.then(queueRefresh);
+
+    // Triggers nested in the cards are created by the cards' own effects,
+    // after this one, and measure themselves on creation with the slide-in
+    // offset applied. Refresh once they exist, so they're measured at rest.
+    queueRefresh();
 
     return () => {
       disposed = true;
