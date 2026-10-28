@@ -1,4 +1,4 @@
-import { CheckIcon, XIcon } from "@phosphor-icons/react";
+import { CalculatorIcon, CheckIcon, XIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import { BlurIn } from "../../animations/blur-in/blur-in";
 import ScrollReveal from "../../animations/scroll-reveal/scroll-reveal";
@@ -12,6 +12,11 @@ export type Plan = {
   bullets: Array<{
     text: string;
     available?: boolean;
+    /**
+     * A small link beside the line - say, to work out the number on it. An
+     * in-page `href` scrolls there smoothly; `description` is its full name.
+     */
+    action?: { href: string; label: string; description?: string };
   }>;
   price: string;
   symbol: string;
@@ -62,6 +67,46 @@ function IntervalButton({
     >
       {children}
     </button>
+  );
+}
+
+/**
+ * The small link a bullet line can carry. An in-page target is scrolled to
+ * smoothly - or at once, for a reader who asked for less motion - and the
+ * address keeps the hash, as a plain anchor would.
+ */
+function BulletAction({
+  action,
+}: {
+  action: NonNullable<Plan["bullets"][number]["action"]>;
+}) {
+  return (
+    <a
+      href={action.href}
+      aria-label={action.description ?? action.label}
+      title={action.description}
+      className="-ml-2 inline-flex items-center gap-1.5 rounded-[8px] border border-white/15 px-2 py-0.5 text-xs text-white/70 transition-colors duration-200 hover:border-white/40 hover:text-white focus-visible:border-white/60 focus-visible:text-white focus-visible:outline-none"
+      onClick={(event) => {
+        const target = action.href.startsWith("#")
+          ? document.getElementById(action.href.slice(1))
+          : null;
+        if (!target) {
+          return;
+        }
+        event.preventDefault();
+        const reduce = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+        target.scrollIntoView({
+          behavior: reduce ? "auto" : "smooth",
+          block: "start",
+        });
+        window.history.replaceState(null, "", action.href);
+      }}
+    >
+      <CalculatorIcon size="14px" />
+      {action.label}
+    </a>
   );
 }
 
@@ -207,6 +252,9 @@ export function PricingCards({
                           <CheckIcon size="18px" />
                         )}
                         <span>{bullet.text}</span>
+                        {bullet.action && (
+                          <BulletAction action={bullet.action} />
+                        )}
                       </li>
                     ))}
                   </ul>
