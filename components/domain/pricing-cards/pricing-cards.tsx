@@ -24,6 +24,8 @@ export type Plan = {
   trial?: boolean;
   /** Button label; falls back to a generic "Get started". */
   ctaLabel?: string;
+  /** Where the button goes; falls back to "/dashboard". */
+  ctaHref?: string;
   extraNote?: string;
   originalPrice?: string;
   discount?: number;
@@ -230,7 +232,7 @@ export function PricingCards({
                   </div>
                   <div className="py-8 border-b border-white/10 w-full">
                     <PrimaryButton
-                      href="/dashboard"
+                      href={plan.ctaHref ?? "/dashboard"}
                       className={`w-full text-center`}
                       inline={false}
                     >
